@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"> </div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1.What is the capital of France?",
+                answers: [
+                    { text: "Paris", correct: true },
+                    { text: "Berlin", correct: false },
+                    { text: "Madrid", correct: false },
+                    { text: "Rome", correct: false }
+                ]
+            },
+            {
+                question: "2.Which of these is the largest mammal?",
+                answers: [
+                    { text: "Pieces", correct: false },
+                    { text: "Elephant", correct: false },
+                    { text: "Giraffe", correct: false },
+                    { text: "Blue Whale", correct: true }
+                ]
+            },
+
+            {
+                question: "3.How many continents are there on  Earth?",
+                answers: [
+                    { text: "2", correct: false },
+                    { text: "3", correct: false },
+                    { text: "7", correct: true },
+                    { text: "5", correct: false }
+                ]
+            },
+            {
+                question: "4.Which planet is known as the Blue Planet?",
+                answers: [
+                    { text: "Earth", correct: true },
+                    { text: "Venus", correct: false },
+                    { text: "Mars", correct: false },
+                    { text: "Neptune", correct: false }
+                ]
+            },
+            {
+                question: "5.What is the square root of 2025?",
+                answers: [
+                    { text: "90", correct: false },
+                    { text: "10", correct: false },
+                    { text: "45", correct: true },
+                    { text: "38", correct: false }
+                ]
+            },
+           
+            {
+                question: "6.What is H20 commonly known as?",
+                answers: [
+                    { text: "K2", correct: false },
+                 { text: "Oxygen", correct: false },
+                    { text: "Water", correct: true },
+                    { text: "Hydrogen Peroxide ", correct: false }
+                ]
+            },{
+             question: "7.Which of these is a Prime number?",
+                answers: [
+                    { text: "6", correct: false },
+                    { text: "15", correct: false },
+                    { text: "23", correct: true },
+                    { text: "27 ", correct: false }
+            ]
+            },
+            {
+             question:"8.How many degrees are there in a circle?",
+                answers: [
+                    { text: "60", correct: false },
+                    { text: "105", correct: false },
+                    { text: "360", correct: true },
+                    { text: "270 ", correct: false }
+            ]
+
+            },
+           {
+            question:"9.what is the main ingredient in traditional Japanese miso soup?",
+                answers: [
+                    { text: "Seaweed", correct: false },
+                    { text: "Miso Paste", correct: true },
+                    { text: "Soy Sauce", correct: false },
+                    { text: "Tofu", correct: false }
+
+           ]
+           },
+           {
+            question:"10.what colors are the stars on the flag of the United States?",
+                answers: [
+                    { text: "Orange", correct: false },
+                    { text: "White", correct: true },
+                    { text: "Blue", correct: false },
+                    { text: "Green", correct: false }
+           ]
+           },
+           {
+            question:"11.which is the longest river in the world?",
+                answers: [
+                    { text: "Mississippi", correct: false },
+                    { text: "Yangtze", correct: false },
+                    { text: "Amazon", correct: false },
+                    { text: "Nile", correct: true }
+           ]
+           },
+           {
+            question:"12.which  planet has the most moons?",
+                answers: [
+                    { text: "Earth", correct: false },
+                    { text: "Mars", correct: false },
+                    { text: "Saturn", correct: false },
+                    { text: "Jupiter", correct: true }
+           ]
+           },
+           {
+            question:"13.who write 'Pride and Prejaudice'?",
+                answers: [
+                    { text: "Jane Austen", correct: false },
+                    { text: "Mark Twain", correct: false },
+                    { text: "Charles Dickens", correct: false },
+                    { text: "Charlotte Bronte", correct: true }
+           ]
+
+           },
+           {
+            question:"14.what is the hardest natural substance on Earth ?",
+                answers: [
+                    { text: "Diamonds", correct: true },
+                    { text: "Topaz", correct: false },
+                    { text: "Gold", correct: false },
+                    { text: "Quartz", correct: false }
+           ]
+           },
+          {
+           question:"15.which of these numbers is a Fibonacci number?",
+                answers: [
+                    { text: "21", correct: true },
+                    { text: "14", correct: false },
+                    { text: "26", correct: false },
+                    { text: "34", correct: false }
+          ]
+          },
+          {
+           question:"16.What is the chemical formula for table salt?",
+                answers: [
+                    { text: "CaCl2", correct: false },
+                    { text: "14", correct: false },
+                    { text: "NaCl", correct: true},
+                    { text: "KCl", correct: false }
+       ]   },
+       {
+        question:"17.Which planet is known as the Morning Star or the Evening star?",
+                answers: [
+                    { text: "Jupiter", correct: false },
+                    { text: "Mercury", correct: false },
+                    { text: "Venus", correct: true},
+                    { text: "Mars", correct: false }
+     ]  },
+        
+          {
+           question:"18.What is the main ingredient in guacamole?",
+                answers: [
+                    { text: "Tomato", correct: false },
+                    { text: "Lime", correct: false },
+                    { text: "Onion", correct: false},
+                    { text: "Avocado", correct: true}
+     ]  },
+          {
+           question:"19.What is the currency of Japan?",
+                answers: [
+                    { text: "Yuan", correct: false },
+                    { text: "Won", correct: false },
+                    { text: "Baht", correct: false},
+                    { text: "Yen", correct: true}
+        ]  },
+       {
+        question:"20.Which country is known as the Land of the Rising Sun ?",
+                answers: [
+                    { text: "China", correct: false },
+                    { text: "Thailand", correct: false },
+                    { text: "South korea", correct: false},
+                    { text: "Japan", correct: true}
+     ]  },
+     {
+      question:"21.What is the capital of Australia?",
+                answers: [
+                    { text: "Brisbane", correct: false },
+                    { text: "Melbourne", correct: false },
+                    { text: "Sydney", correct: false},
+                    { text: "Canberra", correct: true}
+     ]  },
+     {
+      question:"22.What is the capital city of Canada?",
+                answers: [
+                    { text: "Ottawa", correct: true },
+                    { text: "Toronto", correct: false },
+                    { text: "Vancouver", correct: false},
+                    { text: "Montreal", correct: false}
+     ]  },
+     {
+
+      question:"23.What is the value of the mathematical constant 'pi'?",
+                answers: [
+                    { text: "1.618", correct: false },
+                    { text: "2.718", correct: false },
+                    { text: "3.14159", correct: true},
+                    { text: "0.577", correct: false}
+     ]  },
+     {
+      question:"24.What is the most abundant gas in Earth's atmosphere?",
+                answers: [
+                    { text: "Hydrogen", correct: false },
+                    { text: "Oxygen", correct: false },
+                    { text: "Nitrogen", correct: true},
+                    { text: "Carbon Dioxide ", correct: false}
+     ]  },
+     {
+        question:"25.What is the chemical symbol for gold ?",
+                answers: [
+                    { text: "Au", correct: true },
+                    { text: "Ag", correct: false },
+                    { text: "Pt", correct: false},
+                    { text: "Pb", correct: false}
+     ]  }
+     
+     ];
+     const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML = '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

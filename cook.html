@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1. Which oil is used for cooking in South India?",
+                answers: [
+                    { text: "Coconut oil", correct: true },
+                    { text: "Sunflower oil", correct: false },
+                    { text: "Olive oil", correct: false },
+                    { text: "Almond oil", correct: false }
+                ]
+            },
+            {
+                question: "2. Which is the National Food of India?",
+                answers: [
+                    { text: "Roti", correct: false },
+                    { text: "Dal", correct: false },
+                    { text: "Khichadi", correct: true },
+                    { text: "Curry rice", correct: false }
+                ]
+            },
+
+            {
+                question: "3. Which vitamin are rich in Carrot?",
+                answers: [
+                    { text: "Vitamin A", correct: false },
+                    { text: "Vitamin K1", correct: false },
+                    { text: "Vitamin B6", correct: false },
+                    { text: "All of the above", correct: true }
+                ]
+            },
+            {
+                question: "4. Strawberry is a good source of which vitamin?",
+                answers: [
+                    { text: "Vitamin C", correct: true },
+                    { text: "Vitamin A", correct: false },
+                    { text: "Vitamin K", correct: false },
+                    { text: "None of these", correct: false }
+                ]
+            },
+            {
+                question: "5. Though 'Sambar' is popular across South India which state is most famous for 'Sambar'?",
+                answers: [
+                    { text: "Kerala", correct: false },
+                    { text: "Tamil Nadu", correct: true },
+                    { text: "Andhra Predesh", correct: false },
+                    { text: "Lukhnow", correct: false }
+                ]
+            },
+            {
+                question: "6. Where does Coffee originate from?",
+                answers: [
+                    { text: "Canada", correct: false },
+                    { text: "Italy", correct: false },
+                    { text: "Ethiopia", correct: true },
+                    { text: "paris", correct: false }
+                ]
+            },
+            {
+                question: "7. Which food contain Vitamin D?",
+                answers: [
+                    { text: "Fatty Fish", correct: false },
+                    { text: "Mushroom", correct: false },
+                    { text: "Egg Yolk", correct: false },
+                    { text: "All of the above", correct: true }
+                ]
+            },
+            {
+                question: "8. Which state is largest producer of wheat?",
+                answers: [
+                    { text: "Uttar Pradesh", correct: true },
+                    { text: "Rajasthan", correct: false },
+                    { text: "Agra", correct: false },
+                    { text: "Asam", correct: false }
+                ]
+            },
+
+            {
+                question: "9. Litti-Chokha is famous food of which state?",
+                answers: [
+                    { text: "Rajasthan", correct: false },
+                    { text: "Manipur", correct: false },
+                    { text: "Bihar", correct: true },
+                    { text: "Punjab", correct: false }
+                ]
+            },
+            {
+                question: "10. Which state is known as Apple State of India?",
+                answers: [
+                    { text: "Jammu and Kashmir", correct: false },
+                    { text: "Himachal Pradesh", correct: true },
+                    { text: "Uttar Pradesh", correct: false },
+                    { text: "Goa", correct: false }
+                ]
+            },
+            {
+                question: "11. Which is the main ingredient in the popular Mexican dish “Guacamole”?",
+                answers: [
+                    { text: "Avocado", correct: true },
+                    { text: "Tomatoes", correct: false },
+                    { text: "Onion", correct: false },
+                    { text: "Cilantro", correct: false }
+                ]
+            },
+            {
+                question: "12. “Pho” is traditional noodle soup from which country?",
+                answers: [
+                    { text: "Japan", correct: false },
+                    { text: "China", correct: false },
+                    { text: "Thailand", correct: false },
+                    { text: "Vietnam", correct: true }
+                ]
+            },
+            {
+                question: "13. “Pav-Bhaji is a popular street food dish from which Indian State?",
+                answers: [
+                    { text: "Rajasthan", correct: false },
+                    { text: "Maharashtra", correct: true },
+                    { text: "West Bengal", correct: false },
+                    { text: "Kerala", correct: false }
+                ]
+            },
+            {
+                question: "14. Which is the main ingredient in the traditional Indian dish “Saag-Paneer”?",
+                answers: [
+                    { text: "Tofu", correct: false },
+                    { text: "Potatoes", correct: false },
+                    { text: "Spanish", correct: true },
+                    { text: "Lentils", correct: false }
+                ]
+            },
+
+            {
+                question: "15. What is the primary ingredient used in the Japanese dish “Sushi”?",
+                answers: [
+                    { text: "Rice", correct: true },
+                    { text: "Noodle", correct: false },
+                    { text: "Seaweed", correct: false },
+                    { text: "Fish or other toppings", correct: false }
+                ]
+            },
+            {
+                question: "16. The famous Indian Bread “Naan” is typically cooked in a traditional oven is called?",
+                answers: [
+                    { text: "Wok", correct: false },
+                    { text: "Tandoor", correct: true },
+                    { text: "Grill", correct: false },
+                    { text: "Skillet", correct: false }
+                ]
+            },
+            {
+                question: "17. Which fruit is known for being a natural source of Potassium and is often associated with preventing muscle cramps?",
+                answers: [
+                    { text: "Banana", correct: true },
+                    { text: "Orange", correct: false },
+                    { text: "Watermelon", correct: false },
+                    { text: "Apple", correct: false }
+                ]
+            },
+            {
+            question: "18. “Kimchi” is a traditional side dish from which country?",
+                answers: [
+                    { text: "Japan", correct: false },
+                    { text: "China", correct: false },
+                    { text: "Thailand", correct: false },
+                    { text: "South korea", correct: true }
+                ]
+            },
+            {
+                question: "19. “Dhokla” is a delicacy of which state of India?",
+                answers: [
+                    { text: "Odisha", correct: false },
+                    { text: "Maharashtra", correct: false },
+                    { text: "Gujarat", correct: true },
+                    { text: "Karnataka", correct: false }
+                ]
+            },
+            {
+                question: "20. In which device prepared food item are protected from spoilage at a temperature lower than the temperature of the atmosphere?",
+                answers: [
+                    { text: "Refrigerator", correct: true },
+                    { text: "Cooker", correct: false },
+                    { text: "Stove", correct: false },
+                    { text: "None of the above", correct: false }
+                ]
+            },
+            {
+                question: "21. Egg is rich source of _____________ ?",
+                answers: [
+                    { text: "Vitamin", correct: false },
+                    { text: "Protein", correct: true },
+                    { text: "Minerals", correct: false },
+                    { text: "None of the above", correct: false }
+                ]
+            },
+            {
+                question: "22. Food does not spoil for months if it is stored at?",
+                answers: [
+                    { text: "-18 degree celsius", correct: true },
+                    { text: " 5 degree celsius", correct: false },
+                    { text: " 10 degree celsius", correct: false },
+                    { text: " 15 degree celsius", correct: false }
+                ]
+            },
+
+            {
+                question: "23. Which are rich source of protein?",
+                answers: [
+                    { text: "Orange,Butter,Eggs", correct: false },
+                    { text: "Almonds,Maize,Milk", correct: false },
+                    { text: "Eggs,Pulses,Fish", correct: true },
+                    { text: "None of the above", correct: false }
+                ]
+            },
+            {
+                question: "24. Which state is famous for Oranges in India?",
+                answers: [
+                    { text: "Maharashtra", correct: true },
+                    { text: "Punjab", correct: false },
+                    { text: "Himachal Pradesh", correct: false },
+                    { text: "Odisha", correct: false }
+                ]
+            },
+            {
+                question: "25. Which fruit is known as the “Queen of Fruits” and its native to South East Asia?",
+                answers: [
+                    { text: "Dragon Fruit", correct: false },
+                    { text: "Mangosteen", correct: true },
+                    { text: "Lichee", correct: false },
+                    { text: "Kiwi ", correct: false }
+                ]
+            },
+
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

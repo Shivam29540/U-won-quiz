@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <style>
+      .navbar{
+    background-color: #bb2a6b ;font-family: calibri;padding-right: 15px;padding-left: 15px;
+    width: 150%;
+    height: 50px;
+
+}
+.navdiv{
+    display: flex; align-items: center; justify-content:left;
+
+}
+li{
+    list-style: none; display: inline-block;
+
+}
+li a{
+    color: white; font-size: 20px; font-weight: bold; margin-right: 10px;text-align: center;
+}
+.log{
+    position: static;
+
+}
+
+body{
+align-items: center;
+background-image: url(https://t3.ftcdn.net/jpg/03/09/92/64/360_F_309926448_dcWG8ltJj1rYxWTb7RwWoWy1JqngkI9D.jpg);
+}
+
+.navbar a:hover{
+border: 2px;
+transform: scale(0.8); 
+}
+
+button a{
+color:white; font-weight: bold; font-size: 15px;
+}
+.container{
+display: flex;margin: 10px; 
+
+}
+.big{
+height: 800px;
+width: 100%;
+background-image: url(../imagesp.jpg);
+background-position: center;
+background-attachment: scroll;
+background-size: cover;
+background-repeat: no-repeat;
+opacity: 0.5;
+
+}
+.navbar:hover{
+transform: translateX(-80px);
+transition: all 10s ease-out 0.01s;
+transition-timing-function: linear;
+
+
+}
+body{
+    font-family: Arial, sans-serif;
+ align-items: center;
+}
+
+
+.big{
+    height: 800px;
+    width: 100%;
+    background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+    background-repeat:no-repeat ;
+    background-size: cover;
+    opacity: 0.5;
+}
+#quiz-container {
+    max-width: 600px;
+    margin-top:  180px;
+    margin-left: 400px;
+    padding: 1em;
+    backdrop-filter: blur(50px);
+    border: 3px white solid;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    color: aliceblue;
+}
+
+.btn-container {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn {
+   
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.correct {
+    background-color: #4CAF50;
+}
+
+.wrong {
+    background-color: #f44336;
+}
+
+.hide {
+    display: none;
+}
+.button1{
+    margin-top: 15px;
+    background-color: #6298f5;
+     font: monospace ;
+     margin-left: 40%;
+     margin-right: 25px;
+     border: white solid 2px;
+     border-radius: 10px; padding: 10px;width: 150px;
+     color:white; font-weight: bold; font-size: 15px;
+    
+}
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container" class="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <button class="button1 hide" id="next-btn">Next</button>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                question: "1. MERN stack is used to design?",
+                answers: [
+                    { text: "Web Applications", correct: true },
+                    { text: "Apps", correct: false },
+                    { text: "Network", correct: false },
+                    { text: "None of these ", correct: false }
+                ]
+            },
+            {
+                question: "2. MERN is stands for?",
+                answers: [
+                    { text: "Mongodb+Express+native+redux", correct: false },
+                    { text: "Mongodb+Express+node js+redux", correct: false },
+                    { text: "Mongodb+Express+Nodejs+React js", correct: true },
+                    { text: "None of these ", correct: false }
+                ]
+            },
+
+            {
+                question: "3. In MERN stack MongoDB is used for?",
+                answers: [
+                    { text: "Database", correct: true },
+                    { text: "Accounting", correct: false },
+                    { text: "Data Management", correct: false },
+                    { text: "All of these", correct: false }
+                ]
+            },
+            {
+                question: "4. In MERN stack which is used for backend ?",
+                answers: [
+                    { text: "Express.js", correct: true },
+                    { text: "Node.js", correct: false },
+                    { text: "Database", correct: false },
+                    { text: "All of these ", correct: false }
+                ]
+            },
+            {
+                question: "5. MongoDb is of ________ type of database. ?",
+                answers: [
+                    { text: "Non-Relational", correct: true },
+                    { text: "Relational", correct: false },
+                    { text: "key value", correct: false },
+                    { text: "SQL  ", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "6. What is React primarily used for?",
+                answers: [
+                    { text: "Building mobile Apps", correct: false },
+                    { text: "Server-side processing", correct: false },
+                    { text: "Creating user interfaces", correct: true },
+                    { text: "Networking ", correct: false }
+                ]
+            },
+            {
+                question: "7. In which language Node.js is written?",
+                answers: [
+                    { text: "JavaScript", correct: false },
+                    { text: "C", correct: false },
+                    { text: "C++", correct: true },
+                    { text: "java", correct: false }
+                ]
+            },
+            {
+                question: "8. In MERN stack which is used to design user Interface ?",
+                answers: [
+                    { text: "Angular.js", correct: false },
+                    { text: "React.js", correct: true },
+                    { text: "Express.js", correct: false },
+                    { text: "Node.js", correct: false }
+                ]
+            },
+            {
+                question: "9. Who credited as the developer of Express.js ?",
+                answers: [
+                    { text: "Larry Wall", correct: false },
+                    { text: "Rich Hicky", correct: false },
+                    { text: "TJ Holowaychuk", correct: true },
+                    { text: "Rob Pike ", correct: false }
+                ]
+            },
+            {
+                question: "10. To use mongo with Express.js we need a client-side API for node?",
+                answers: [
+                    { text: "True", correct: true },
+                    { text: "False", correct: false },
+                    { text: "Can be true or false", correct: false },
+                    { text: "Cannot say ", correct: false }
+                ]
+            },
+            {
+                question: "11. MongoDB stores Data in which Format?",
+                answers: [
+                    { text: "CSV", correct: false },
+                    { text: "JSON", correct: true },
+                    { text: "Text", correct: false },
+                    { text: "XLS", correct: false }
+                ]
+            },
+            {
+                question: "12. Which of the following contains strong models for URL routing and manages HTTP request and responses ?",
+                answers: [
+                    { text: "MongoDB", correct: false },
+                    { text: "Express", correct: true },
+                    { text: "Angular", correct: false },
+                    { text: "Node", correct: false }
+                ]
+            },
+            {
+                question: "13. Which of the following provides JavaScript run-time environment ?",
+                answers: [
+                    { text: "Express", correct: false },
+                    { text: "Angular", correct: false },
+                    { text: "Node", correct: true},
+                    { text: "MongoDB", correct: false }
+                ]
+            },
+            {
+                question: "14. Is Node.js based on a single thread ?",
+                answers: [
+                    { text: "True", correct: true },
+                    { text: "False", correct: false },
+                    { text: "Can be true or false", correct: false },
+                    { text: "cannot say ", correct: false }
+                ]
+            },
+            {
+                question: "15. MongoDB is _______ database.",
+                answers: [
+                    { text: "noSQL document-oriented database.", correct: true },
+                    { text: "SQL document-oriented database.", correct: false },
+                    { text: "Relational", correct: false },
+                    { text: "None of these", correct: false }
+                ]
+            },
+            {
+                question: "16. Which of the following functions is used to add one document to a collection.?",
+                answers: [
+                    { text: "Addone()", correct: false },
+                    { text: "Appendone()", correct: false },
+                    { text: "Insertone()", correct: true },
+                    { text: "Joinone()", correct: false }
+                ]
+            },
+            {
+                question: "17. _______ is used to update a single document in a collection.?",
+                answers: [
+                    { text: "Update()", correct: false },
+                    { text: "Updateforemost()", correct: false },
+                    { text: "Updateone()", correct: true },
+                    { text: "Update!", correct: false }
+                ]
+            },
+            {
+                question: "18. From the following which company created the react.js?",
+                answers: [
+                    { text: "Facebook", correct: true },
+                    { text: "Google", correct: false },
+                    { text: "Microsoft", correct: false },
+                    { text: "Apple", correct: false }
+                ]
+            },
+            {
+                question: "19. How do you create a basic server using Express.js",
+                answers: [
+                    { text: "Server.create()", correct: false },
+                    { text: "B.	Express.createserver()", correct: false },
+                    { text: "C.	Const app=express()", correct:true },
+                    { text: "D.	App.start()", correct: false }
+                ]
+            },
+            {
+                question: "20. What is the purpose of the key prop in React.?",
+                answers: [
+                    { text: "A.	To specify the CSS class for the component", correct: false },
+                    { text: "B.	To define the initial state of the component ", correct: false },
+                    { text: "C.	To assign a unique identifier to each element in the list", correct: true },
+                    { text: "D.	To control the rendering of a specific component", correct: false }
+                ]
+            },
+            {
+                question: "21. Which operator is used for performing reality check in mongodb queries ?",
+                answers: [
+                    { text: "$in", correct: false },
+                    { text: "$eq", correct: true },
+                    { text: "$gt", correct: false },
+                    { text: "$ne", correct: false }
+                ]
+            },
+            {
+                question: "22. Which is the component of Redux ?",
+                answers: [
+                    { text: "Store", correct: false },
+                    { text: "Action", correct: false },
+                    { text: "Reducer", correct: false },
+                    { text: "All of these", correct: true }
+                ]
+            },
+            {
+                question: "23. What are the dataTypes used in MongoDB?",
+                answers: [
+                    { text: "Null", correct: false },
+                    { text: "Boolean", correct: false },
+                    { text: "Number", correct: false },
+                    { text: "All of these", correct: true }
+                ]
+            },
+            {
+                question: "24. What command is used to manage different NodeJS veresions??",
+                answers:[
+                    { text: "node", correct: false },
+                    { text: "npm", correct: false },
+                    { text: "nvm", correct: true },
+                    { text: "js", correct: false }
+                ]
+            },
+            {
+                question: "25. Which HTTP module in node.js allows you to create a web server?",
+                answers: [
+                    { text: "FS", correct: false },
+                    { text: "querstring", correct: false },
+                    { text: "HTTP", correct: true },
+                    { text: "URL", correct: false }
+                ]
+            }
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 1000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerText = '<a href="grid.html">Quit!</a>';
+            nextButton.classList.remove('hide');
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        startQuiz();
+       
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Section</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            
+            
+            background-image: url(https://th.bing.com/th/id/OIP.At0Fw8E31bc_RQIT8FU2-wHaD4?w=1200&h=630&rs=1&pid=ImgDetMain);
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 300px;
+            padding-left: 100px;
+
+        }
+
+        .help-section {
+            
+            max-width: 800px;
+            height:400px;
+            background-color: aqua;
+            margin: 50px auto;
+            
+            padding:50px;
+            background-color: #ffffff;
+            
+            
+        }
+
+        .help-section h1 {
+            text-align: center;
+            color: #2325cb;
+        }
+
+        .faq h2 {
+            color: black;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question h3 {
+            color: #d31f12;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .question h3:hover {
+            color: #d31acd;
+        }
+
+        .question p {
+            display: none;
+            padding-left: 20px;
+            color: #1d1dd5;
+        }
+
+        /* Show the answer when the question is clicked */
+        .question.active p {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="help-section">
+        <h1>Help Section</h1>
+        <div class="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="question">
+                <h3>How can I reset my password?</h3>
+                <p>To reset your password, go to the login page and click on the "Forgot Password" link. Follow the instructions to reset your password.</p>
+            </div>
+            <div class="question">
+                <h3>How do I contact customer support?</h3>
+                <p>You can contact customer support by clicking on the "Contact Us" link at the bottom of the page or by sending an email to support@example.com.</p>
+            </div>
+            <div class="question">
+                <h3>Helpline Number or Email?</h3>
+                <p>If you are facing any issue feel free to contact <b>9781575042</b><br>
+                    or you can send your queries at <b>shivamkumar@29540</b>.<br>
+                    We will try our level best to solve your queries.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const questions = document.querySelectorAll('.question h3');
+            questions.forEach(question => {
+                question.addEventListener('click', function () {
+                    this.parentElement.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1. What is the fullform of html ?",
+                answers: [
+                    { text: "hyper text margin language", correct: false},
+                    { text: "hyper test markup language", correct: false },
+                    { text: "hyper text markup language", correct: true },
+                    { text: "hyper test margin language", correct: false }
+                ]
+            },
+            {
+                question: "2. Which one is the html document's root tag?",
+                answers: [
+                    { text: "<head>", correct: false },
+                    { text: "<body>", correct: false },
+                    { text: "<html>", correct: true },
+                    { text: "<title>", correct:false }
+                ]
+            },
+
+            {
+                question: "3. Which tag is used in HTML5 for the initialisation of the document type?",
+                answers: [
+                    { text: "<!Doctype html>", correct: true },
+                    { text: "<Doctype html>", correct: false },
+                    { text: "<doctype HTML>", correct: false },
+                    { text: "<doctype html>", correct: false }
+                ]
+            },
+            {
+                question: "4. Which tag is used to making the text bold in html?",
+                answers: [
+                    { text: "<br>", correct: false },
+                    { text: "<b>", correct: true },
+                    { text: "<u>", correct: false },
+                    { text: "<ul>", correct: false }
+                ]
+            },
+            {
+            question: "5. Which tag is used to make the text italic;?",
+             answers: [
+                    { text: "<u>", correct: false },
+                    { text: "<i>", correct: true },
+                    { text: "<b>", correct: false },
+                    { text: "<br>", correct: false }
+                ]
+            },
+            {
+            question: "6. In html we use hr tag for?",
+             answers: [
+                    { text: "vertical ruler", correct: false },
+                    { text: "horizontal ruler", correct: true },
+                    { text: "new paragrapg", correct: false},
+                    { text: "new line", correct: false }
+                ]
+            },
+            {
+            question: "7. Which tag do we use in html for inserting a line break?",
+             answers: [
+                    { text: "<br>", correct: true },
+                    { text: "<b>", correct: false },
+                    { text: "<ul>", correct: false },
+                    { text: "<ol>", correct: false }
+                ]
+            },
+            {
+            question: "8. In HTML the tags are-----?",
+             answers: [
+                    { text: "case sensitive", correct: false },
+                    { text: "not a case sensitive", correct: true },
+                    { text: "in upper case", correct: false },
+                    { text: "in lower case", correct: false }
+                ]
+            },
+            {
+            question: "9. Which html tag do we use for displaying the power in the expression,x^2?",
+             answers: [
+                    { text: "<sup>", correct: true },
+                    { text: "<sub>", correct: false },
+                    { text: "<ul>", correct: false },
+                    { text: "<i>", correct: false }
+                ]
+            },
+            {
+            question: "10. Which html tag do we use to display text along with a scrolling effect?",
+             answers: [
+                    { text: "<div>", correct: false },
+                    { text: "<scroll>", correct: false },
+                    { text: "<marquee>", correct: true },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "11. Correct html tag for largest heading?",
+             answers: [
+                    { text: "<h2>",correct:false},
+                    { text: "<h5>", correct: false },
+                    { text: "<h1>", correct: true },
+                    { text: "<none>", correct: false }
+                ]
+            },
+            {
+            question: "12. Which of the following is not a atribute of <form>tag?",
+             answers: [
+                    { text: "url", correct: true },
+                    { text: "action", correct: false },
+                    { text: "method", correct: false},
+                    { text: "name", correct: false }
+                ]
+            },
+            {
+            question: "13. HTML is a subset of?",
+             answers: [
+                    { text: "SGMT", correct: false },
+                    { text: "SGMD", correct: false },
+                    { text: "SGML", correct: true },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "14. All HTML tags must be enclosed in ?",
+             answers: [
+                    { text: "?And/", correct: false },
+                    { text: "<And>", correct: true },
+                    { text: "{And}", correct: false },
+                    { text: "[And]", correct: false }
+                ]
+            },
+            {
+            question: "15. The body tag is usually used after?",
+             answers: [
+                    { text: "EM tag", correct: false },
+                    { text: "HTML tag", correct: true },
+                    { text: "Title tag", correct: false},
+                    { text: "Head tag", correct: false }
+                ]
+            },
+            {
+            question: "16.Which of the following is use of html?",
+             answers: [
+                    { text: "creating spreadsheets", correct: false },
+                    { text: "programming applications", correct: false },
+                    { text: "designing webpages", correct: true },
+                    { text: "editing vedios", correct: false }
+                ]
+            },
+            {
+            question: "17. HTML webpages are read and rendered by which of the following?",
+             answers: [
+                    { text: "Compilers", correct: false },
+                    { text: "servers", correct: false },
+                    { text: "web browsers", correct: true },
+                    { text: "database systems", correct: false }
+                ]
+            },
+            {
+            question: "18. What is the significance of the DOCTYPE declaration in HTML?",
+             answers: [
+                    { text: "it links html with css", correct: false },
+                    { text: "it defines the html version being used", correct: true },
+                    { text: "it is required for creating html forms ", correct: false },
+                    { text: "it enabels javascript in html", correct: false }
+                ]
+            },
+            {
+            question: "19. Which tag is used to define the title of a document in html?",
+             answers: [
+                    { text: "<body>", correct: false },
+                    { text: "<body>", correct: false },
+                    { text: "<title>", correct: true },
+                    { text: "<br>", correct: false }
+                ]
+            },
+            {
+            question: "20. What is the purpose of the <em> tag in HTML?",
+             answers: [
+                    { text: "to underline text", correct: false },
+                    { text: "to change text color ", correct: false },
+                    { text: "to emphasize text", correct: true },
+                    { text: "to create a paragraph", correct: false }
+                ]
+            },
+            {
+            question: "21. Which tag is used to display text in a monospaced (typewriter-style) font in HTML?",
+             answers: [
+                    { text: "<typewriter>", correct: false },
+                    { text: "<pre>", correct: true },
+                    { text: "<code>", correct: false },
+                    { text: "<monospace>", correct: false }
+                ]
+            },
+            {
+            question: "22. Which HTML element is used to define the footer of an HTML document?",
+             answers: [
+                    { text: "<bottom>", correct: false },
+                    { text: "<footer>", correct: true },
+                    { text: "<end>", correct: false},
+                    { text: "<foot>", correct: false }
+                ]
+            },
+            {
+            question: "23. What does the <abbr>tag represent in HTML?",
+             answers: [
+                    { text: "abbrevation or acronym", correct: true },
+                    { text: "address block", correct: false },
+                    { text: "article body", correct: false },
+                    { text: "audio broadcast", correct: false }
+                ]
+            },
+            {
+            question: "24. What is the result of this HTML code: <p>this is<b>important</b>text.</p>?",
+             answers: [
+                    { text: "This is impotant text", correct: true},
+                    { text: "This is<b>important</b>text", correct: false},
+                    { text: "this is IMPORTANT text", correct: false},
+                    { text: "this is important TEXT", correct: false }
+                ]
+            },
+            {
+            question: "25. Spot the error in: <p>HTML is <em> fun</u> to learn</p>?",
+             answers: [
+                    { text: "<em> tag not closed", correct: false },
+                    { text: "<u> tag not closed", correct: false},
+                    { text: "Incorrect tag pairing", correct: true},
+                    { text: "no error", correct: false }
+                ]
+            }   
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML = '<a href="feedback.html">Give your Feedback</a>';;
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

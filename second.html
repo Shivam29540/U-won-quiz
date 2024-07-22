@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main{
+            height: 500px;
+            width: 100%;
+            background-color: greenyellow;
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-columns: 120px 1fr 100px;
+            row-gap: 10px;
+            column-gap: 20px;
+        }
+        .child{
+            height: 100px ;
+            width: 100px;
+            background-color: blueviolet;
+        }
+        .child1{
+            grid-row-start: 1;
+            grid-row-end: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor accusantium, porro maxime blanditiis eaque pariatur fuga dignissimos, voluptatem, magnam accusamus assumenda est aliquid.</div>
+        <div class="child"></div>
+        <div class="child"></div>
+    </div>
+</body>
+</html>

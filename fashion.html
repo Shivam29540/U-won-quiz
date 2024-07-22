@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "which designer is known as the king of fashion ?",
+                answers: [
+                    { text: "Giorgio Armani", correct: false},
+                    { text: "Christan Dior ", correct: false },
+                    { text: "Karl Lagerfeld", correct: true },
+                    { text: "Ralph Lauren", correct: false }
+                ]
+            },
+            {
+                question: "which fashion house is famous for its monogram canvas bags?",
+                answers: [
+                    { text: "Gucci", correct: false },
+                    { text: "Prada", correct: false },
+                    { text: "Louis Vuitton", correct: true },
+                    { text: "Chanel", correct:false }
+                ]
+            },
+
+            {
+                question: "what is the name of the famous fashion event held annually in New York  ?",
+                answers: [
+                    { text: "Met Gala", correct: true },
+                    { text: "Fashion Week", correct: false },
+                    { text: "Paris Fashion Show", correct: false },
+                    { text: "Milan Fashion Week", correct: false }
+                ]
+            },
+            {
+                question: "which designer is credited with popularizing the mini skirt in the 1960s?",
+                answers: [
+                    { text: "Coco Chanel", correct: false },
+                    { text: "Mary Quant", correct: true },
+                    { text: "Yves Saint Laurent", correct: false },
+                    { text: "Diane von Week", correct: false }
+                ]
+            },
+            {
+            question: "which fashion house uses the interlocking GG logo?",
+             answers: [
+                    { text:"Givenchy", correct: false },
+                    { text: "Gucci", correct: true },
+                    { text: "Versace", correct: false },
+                    { text: "Dolce & Gabbana", correct: false }
+                ]
+            },
+            {
+            question: "what fabric is commonly used to make jeans?",
+             answers: [
+                    { text: "Silk", correct: false },
+                    { text: "Denim", correct: true },
+                    { text: "Linen", correct: false},
+                    { text: "Wool", correct: false }
+                ]
+            },
+            {
+            question: "what accessory is often associated with coco chanel?",
+             answers: [
+                    { text: "Pearl necklace", correct: true },
+                    { text: "Silk scarf", correct: false },
+                    { text: "Diamond ring", correct: false },
+                    { text: "Leather belt", correct: false }
+                ]
+            },
+            {
+            question: "what is a LBD in fashion terminology?",
+             answers: [
+                    { text: "Long Black Dress", correct: false },
+                    { text: "Little Black Dress", correct: true },
+                    { text: "Large Blue Dress", correct: false },
+                    { text: "Light Brown Dress", correct: false }
+                ]
+            },
+            {
+            question: "which fashion designer created the New Look in 1947?",
+             answers: [
+                    { text: "Christian Dior", correct: true },
+                    { text: "Yves Saint Laurent", correct: false },
+                    { text: "Hubert de Givenchy", correct: false },
+                    { text: "Valentino Garavani", correct: false }
+                ]
+            },
+            {
+            question: "what is the term for a fashion trend that after being out of style?",
+             answers: [
+                    { text: "Retro", correct: false },
+                    { text: "Vintage", correct: false },
+                    { text: "Revival", correct: true },
+                    { text: "Classic", correct: false }
+                ]
+            },
+            {
+            question: "which brand is known for its red soled shoes?",
+             answers: [
+                    { text: "Manolo Blahnik", correct: false },
+                    { text: "Jimmy Choo", correct: false },
+                    { text: "Christian Louboutin", correct: true },
+                    { text: "Salvatore Ferragamo", correct: false }
+                ]
+            },
+            {
+            question: "who is the founder of the brand Off White?",
+             answers: [
+                    { text: "Virgil Abloh", correct: true },
+                    { text: "Alexander Wang", correct: false },
+                    { text: "Tom Ford", correct: false},
+                    { text: "Riccardo Tisci", correct: false }
+                ]
+            },
+            {
+            question: "what is haute couture?",
+             answers: [
+                    { text: "Ready-to-wear fashion", correct: false },
+                    { text: "Mass-produced clothing", correct: false },
+                    { text: "High-end custom-fitted clothing", correct: true },
+                    { text: "Streetwear", correct: false }
+                ]
+            },
+            {
+            question: "which city is known as the fashion capital of the world?",
+             answers: [
+                    { text: "New York", correct: false },
+                    { text: "Paris", correct: true },
+                    { text: "Milan", correct: false },
+                    { text: "London", correct: false }
+                ]
+            },
+            {
+            question: "which designer is known for the wrap dress?",
+             answers: [
+                    { text: "Donna Karan", correct: false },
+                    { text: "Diane von Furstenberg", correct: true },
+                    { text: "Stella McCatney", correct: false},
+                    { text: "Carolina Herrera", correct: false }
+                ]
+            },
+            {
+            question: "what is the primary function of a Lookbook in fashion?",
+             answers: [
+                    { text: "Catlog of accessories", correct: false },
+                    { text: "Collection of hairstyle trends", correct: false },
+                    { text: "Showcase of a designer's collection", correct: true },
+                    { text: "List of fashion designer", correct: false }
+                ]
+            },
+            {
+            question: "which fabric is made from the fibers of the flax plant?",
+             answers: [
+                    { text: "Cotton", correct: false },
+                    { text: "Wool", correct: false },
+                    { text: "Linen", correct: true },
+                    { text: "Polyester", correct: false }
+                ]
+            },
+            {
+            question: "what does the term pret-a-porter mean in fashion?",
+             answers: [
+                    { text: "Custom-made", correct: false },
+                    { text: "Ready-to-wear", correct: true },
+                    { text: "Exclusive design", correct: false },
+                    { text: "Hand-stitched", correct: false }
+                ]
+            },
+            {
+            question: "which fashion icon was known for her pillbox hats?",
+             answers: [
+                    { text: "Audrey Hepburn", correct: false },
+                    { text: "Grace Kelly", correct: false },
+                    { text: "Jacqueline Kennedy Onassis", correct: true },
+                    { text: "Marilyn Monroe", correct: false }
+                ]
+            },
+            {
+            question: "what is the main feature of a boho style?",
+             answers: [
+                    { text: "Minimalist design", correct: false },
+                    { text: "Bright colors and patterns ", correct: false },
+                    { text: "Vintage and ecletic elements", correct: true },
+                    { text: "Corporate and formal attire ", correct: false }
+                ]
+            },
+            {
+            question: "which brand is associated with Medusa logo?",
+             answers: [
+                    { text: "Hermes", correct: false },
+                    { text: "Versace", correct: true },
+                    { text: "Balenciaga", correct: false },
+                    { text: "Fendi", correct: false }
+                ]
+            },
+            {
+            question: "what type of shoe is characterized by a wooden sole and leather upper?",
+             answers: [
+                    { text: "Espadrilles", correct: false },
+                    { text: "Clogs", correct: true },
+                    { text: "Loafers", correct: false},
+                    { text: "Ballert flats", correct: false }
+                ]
+            },
+            {
+            question: "who is known as the father of haute couture?",
+             answers: [
+                    { text: "Charles Frederick Worth", correct: true },
+                    { text: "Cristobal Balenciaga", correct: false },
+                    { text: "Paul Poiret", correct: false },
+                    { text: "Pierre Balmain", correct: false }
+                ]
+            },
+            {
+            question: "what is a capsule wardrope?",
+             answers: [
+                    { text: "Collection of accessories", correct: false },
+                    { text: "Small collection of essential clothing items", correct: true},
+                    { text: "Seasonal fashion collection", correct: false},
+                    { text: "Travel clothing set", correct: false }
+                ]
+            },
+            {
+            question: "which designer is known for the perfume No 5?",
+             answers: [
+                    { text: "Yves Saint Laurent", correct: false },
+                    { text: "Tom Ford", correct: false},
+                    { text: "Coco Chanel", correct: true},
+                    { text: "Mrc Jacobs", correct: false }
+                ]
+            },    
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML = '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

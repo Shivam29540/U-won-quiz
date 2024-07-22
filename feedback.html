@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(152, 152, 178);
+        }
+
+        #feedback-form {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            background-color: whitesmoke;
+        }
+
+        #feedback-text {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+        }
+
+        #submit-feedback {
+            background-color: rgb(152, 152, 178);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #feedback-display {
+            margin-top: 20px;
+            color: black;
+            text-align: left;
+        }
+
+        #feedback-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #feedback-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #feedback-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="feedback-form">
+        <h2>Leave us your feedback!</h2>
+        <input type="text" id="name" placeholder="Your name">
+        <textarea id="feedback-text" placeholder="Type your feedback here..."></textarea>
+        <button id="submit-feedback">Submit</button>
+    </div>
+    
+    <div id="feedback-display">
+        <h2>Feedback:</h2>
+        <ul id="feedback-list"></ul>
+    </div>
+    
+    <script>
+        const feedbackForm = document.getElementById('feedback-form');
+        const nameInput = document.getElementById('name');
+        const feedbackText = document.getElementById('feedback-text');
+        const submitFeedback = document.getElementById('submit-feedback');
+        const feedbackList = document.getElementById('feedback-list');
+        
+        let id = 1;
+        
+        submitFeedback.addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = nameInput.value.trim();
+            const feedback = feedbackText.value.trim();
+            if (feedback !== '' && name !== '') {
+                // Save the feedback (you can use localStorage or any backend service)
+                saveFeedback({ id, name, feedback });
+                
+                // Clear input fields
+                feedbackText.value = '';
+                nameInput.value = '';
+                
+                // Display the saved feedback
+                const feedbackListItem = document.createElement('li');
+                feedbackListItem.textContent = `ID: ${id} - Name: ${name} - Feedback: ${feedback}`;
+                feedbackList.appendChild(feedbackListItem);
+                
+                // Increment ID for next feedback
+                id++;
+                
+                // Redirect to another page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'grid.html'; // Replace 'anotherpage.html' with your actual destination
+                }, 2000); // 2000 milliseconds = 2 seconds
+            }
+        });
+        
+        function saveFeedback(feedback) {
+            // Example of saving to localStorage
+            let savedFeedback = JSON.parse(localStorage.getItem('feedback')) || [];
+            savedFeedback.push(feedback);
+            localStorage.setItem('feedback', JSON.stringify(savedFeedback));
+        }
+    </script>
+</body>
+</html>

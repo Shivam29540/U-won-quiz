@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1. What is the official language of France?",
+                answers: [
+                    { text: "French", correct: true },
+                    { text: "Spanish", correct: false },
+                    { text: "Italian", correct: false },
+                    { text: "German", correct: false }
+                ]
+            },
+            {
+                question: "2. Which language is primarily spoken in Japan?",
+                answers: [
+                    { text: "Chinese", correct: false },
+                    { text: "Korean", correct: false },
+                    { text: "Thai", correct: false },
+                    { text: "Japanese", correct: true }
+                ]
+            },
+
+            {
+                question: "3. What is the official language of Germany?",
+                answers: [
+                    { text: "Dutch", correct: false },
+                    { text: "Danish", correct: false },
+                    { text: "Swedish", correct: false },
+                    { text: "German", correct: true }
+                ]
+            },
+            {
+                question: "4. Which country has English as its primary language?",
+                answers: [
+                    { text: "Australia", correct: true },
+                    { text: "Brazil", correct: false },
+                    { text: "Brazil", correct: false },
+                    { text: "Russia", correct: false }
+                ]
+            },
+            {
+                question: "5. Which language is the most widely spoken in South America?",
+                answers: [
+                    { text: "English", correct: false },
+                    { text: "Portuguese", correct: false },
+                    { text: "Spanish", correct: true },
+                    { text: "North America", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "6.Which of the following languages is written from right to left?",
+                answers: [
+                    { text: "English", correct: false },
+                    { text: "French", correct: false },
+                    { text: "Hebrew", correct: true },
+                    { text: "Japanese", correct: false }
+                ]
+            },
+            {
+                question: "7. What is the primary language spoken in Canada along with English?",
+                answers: [
+                    { text: "French", correct: true },
+                    { text: "Spanish", correct: false },
+                    { text: "German", correct: false },
+                    { text: "Italian", correct: false }
+                ]
+            },
+            {
+                question: "8. Which language has the most native speakers in the world?",
+                answers: [
+                    { text: "Spanish", correct: false },
+                    { text: "Spanish", correct: false },
+                    { text: "Hindi", correct: false },
+                    { text: "Mandarin Chinese", correct: true }
+                ]
+            },
+
+            {
+                question: "9. What is the official language of Egypt?",
+                answers: [
+                    { text: "French", correct: false },
+                    { text: "English", correct: false },
+                    { text: "Swahili", correct: false },
+                    { text: "Arabic", correct: true }
+                ]
+            },
+            {
+                question: "10. Which of the following languages is a Romance language?",
+                answers: [
+                    { text: "Italian", correct: true },
+                    { text: "Russian", correct: false },
+                    { text: "Arabic", correct: false },
+                    { text: "Greek", correct: false }
+                ]
+            },
+            {
+                question: "11. In which country is the language of Basque spoken?",
+                answers: [
+                    { text: "Italy", correct: false },
+                    { text: "Germany", correct: false },
+                    { text: "Spain", correct: true },
+                    { text: "Greece", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "12. Which language family does Hindi belong to??",
+                answers: [
+                    { text: "Sino-Tibetan", correct: false },
+                    { text: "Afro-Asiatic", correct: false },
+                    { text: "Indo-European", correct: true },
+                    { text: "Uralic", correct: false }
+                ]
+            },
+            {
+                question: "13. What is the primary language spoken in Switzerland?",
+                answers: [
+                    { text: "Swiss German", correct: true },
+                    { text: "Dutch", correct: false },
+                    { text: "Spanish", correct: false },
+                    { text: "Swedish", correct: false }
+                ]
+            },
+            {
+                question: "14. Which language is primarily spoken in the Indian state of Maharashtra?",
+                answers: [
+                    { text: "Tamil", correct: false },
+                    { text: "Marathi", correct: false },
+                    { text: "Gujarati", correct: false },
+                    { text: "Bengali", correct: true }
+                ]
+            },
+
+            {
+                question: "15. Which language uses the Devanagari script?",
+                answers: [
+                    { text: "Arabic", correct: false },
+                    { text: "Chinese", correct: false },
+                    { text: "Greek", correct: false },
+                    { text: "Hindi", correct: true }
+                ]
+            },
+            {
+                question: "16. What is the official language of South Korea?",
+                answers: [
+                    { text: "Korean", correct: true },
+                    { text: "Japanese ", correct: false },
+                    { text: "Chinese", correct: false },
+                    { text: "Thai", correct: false }
+                ]
+            },
+            {
+                question: "17.Which language is the primary language spoken in Austria?",
+                answers: [
+                    { text: "Dutch", correct: false },
+                    { text: "French", correct: false },
+                    { text: "German", correct: true },
+                    { text: "Italian", correct: false }
+                ]
+            },
+            {
+            question: "18. Which language is primarily spoken in Turkey?",
+                answers: [
+                    { text: "Turkish", correct: true },
+                    { text: "Arabic", correct: false },
+                    { text: "Persian", correct: false },
+                    { text: "Kurdish", correct: false }
+                ]
+            },
+            {
+                question: "19. Which language is primarily spoken in the Indian state of Punjab??",
+                answers: [
+                    { text: "Hindi", correct: false },
+                    { text: "Tamil", correct: false },
+                    { text: "Punjab", correct: true },
+                    { text: "Bengali", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "20. Which language is the official language of the Vatican City?",
+                answers: [
+                    { text: "Italian", correct: false },
+                    { text: "German", correct: false },
+                    { text: "Latin", correct: true },
+                    { text: "English", correct: false }
+                ]
+            },
+            {
+                question: "21. Which language is known for its use of tones to differentiate meanings of words?",
+                answers: [
+                    { text: "Thai", correct: true },
+                    { text: "Italian", correct: false },
+                    { text: "Japanese", correct: false },
+                    { text: "German", correct: false }
+                ]
+            },
+            {
+                question: "22. Which country has Dutch as an official language?",
+                answers: [
+                    { text: "Sweden", correct: false },
+                    { text: "Denmark", correct: false },
+                    { text: "Norway", correct: false },
+                    { text: "Netherlands", correct: true }
+                ]
+            },
+
+            {
+                question: "23. What is the official language of Iran??",
+                answers: [
+                    { text: "Turkish", correct: false },
+                    { text: "Arabic", correct: false },
+                    { text: "Kurdish", correct: false },
+                    { text: "Persian (Farsi)", correct: true }
+                ]
+            },
+            {
+                question: "24. In which country is the language of Catalan spoken??",
+                answers: [
+                    { text: "Spain", correct: true },
+                    { text: "France", correct: false },
+                    { text: "Russia", correct: false },
+                    { text: "Brazil", correct: false }
+                ]
+            },
+            {
+                question: "25. Which language is primarily spoken in the Indian state of Kerala??",
+                answers: [
+                    { text: "Tamil", correct: false },
+                    { text: "Telugu", correct: false },
+                    { text: "Malayalam", correct: true },
+                    { text: "Kannada", correct: false }
+                ]
+            },
+
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';;
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

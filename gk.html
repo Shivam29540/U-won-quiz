@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1. Which of the following is the largest planet?",
+                answers: [
+                    { text: "Venus", correct: false },
+                    { text: "Mars", correct: false },
+                    { text: "Neptune", correct: false },
+                    { text: "Jupiter", correct: true }
+                ]
+            },
+            {
+                question: "2. Who was the First Woman Prime Minister of India?",
+                answers: [
+                    { text: "Indira Gandhi", correct: true },
+                    { text: "Rabri Devi", correct: false },
+                    { text: "Sonia Gandhi", correct: false },
+                    { text: "None of the above", correct: false }
+                ]
+            },
+
+            {
+                question: "3. Dhyan Chand was famous for playing which sport?",
+                answers: [
+                    { text: "Cricket", correct: false },
+                    { text: "Hockey", correct: true },
+                    { text: "Football", correct: false },
+                    { text: "Badminton", correct: false }
+                ]
+            },
+            {
+                question: "4. The capital of India is?",
+                answers: [
+                    { text: "Mumbai", correct: false },
+                    { text: "New Delhi", correct: true },
+                    { text: "Ahmedabad", correct: false },
+                    { text: "Lucknow", correct: false }
+                ]
+            },
+            {
+                question: "5. Which famous personality is printed on Indian Rupees note?",
+                answers: [
+                    { text: "Jawaharlal Nehru", correct: false },
+                    { text: "Dr. B.R. Ambedkar", correct: false },
+                    { text: "Mahatma Gandhi", correct: true },
+                    { text: "Lal Bahadur Shastri", correct: false }
+                ]
+            },
+            {
+                question: "6. What is the folk dance of Gujarat?",
+                answers: [
+                    { text: "Bhangra", correct: false },
+                    { text: "Garba", correct: true },
+                    { text: "Kathak", correct: false },
+                    { text: "Bharatnatyam", correct: false }
+                ]
+            },
+            {
+                question: "7. Malyalam is the traditional language from which part of India?",
+                answers: [
+                    { text: "East India", correct: false },
+                    { text: "West India", correct: false },
+                    { text: "North India", correct: false },
+                    { text: "South India", correct: true }
+                ]
+            },
+            {
+                question: "8. Taj Mahal is Located in which Indian city?",
+                answers: [
+                    { text: "Delhi", correct: false },
+                    { text: "Gwalior", correct: false },
+                    { text: "Agra", correct: true },
+                    { text: "Bhopal", correct: false }
+                ]
+            },
+
+            {
+                question: "9. The first Mughal Emperor of India was?",
+                answers: [
+                    { text: "Babur", correct: true },
+                    { text: "Akbar", correct: false },
+                    { text: "Humayu", correct: false },
+                    { text: "Aurangzeb", correct: false }
+                ]
+            },
+            {
+                question: "10. Which of the following is a water related Natural Calamity?",
+                answers: [
+                    { text: "Volcano Eruption", correct: false },
+                    { text: "Cyclone", correct: true },
+                    { text: "Hurricane", correct: false },
+                    { text: "Earthquake", correct: false }
+                ]
+            },
+            {
+                question: "11. Who is the Inventor of Light Bulb?",
+                answers: [
+                    { text: "Charles Babbage", correct: false },
+                    { text: "Newton", correct: false },
+                    { text: "Albert Einstein", correct: false },
+                    { text: "Thomas Edison", correct: true }
+                ]
+            },
+            {
+                question: "12. Which is the Largest Mountain in the world?",
+                answers: [
+                    { text: "Mt Abu", correct: false },
+                    { text: "Himalayas", correct: false },
+                    { text: "Everest", correct: true },
+                    { text: "kanchanjunga", correct: false }
+                ]
+            },
+            {
+                question: "13. How many lines does the Ashok Chakra have?",
+                answers: [
+                    { text: "21", correct: false },
+                    { text: "22", correct: false },
+                    { text: "23", correct: false },
+                    { text: "24", correct: true }
+                ]
+            },
+            {
+                question: "14. How many houses do the Indian Parliament has?",
+                answers: [
+                    { text: "1", correct: false },
+                    { text: "2", correct: true },
+                    { text: "3", correct: false },
+                    { text: "4", correct: false }
+                ]
+            },
+
+            {
+                question: "15. Which of the following animal needs cold living conditions?",
+                answers: [
+                    { text: "Camel", correct: false },
+                    { text: "Cow", correct: false },
+                    { text: "Penguin", correct: true },
+                    { text: "Kangaroo", correct: false }
+                ]
+            },
+            {
+                question: "16. How many wonders of the world exist?",
+                answers: [
+                    { text: "7", correct: true },
+                    { text: "8", correct: false },
+                    { text: "9", correct: false },
+                    { text: "10", correct: false }
+                ]
+            },
+            {
+                question: "17. Which planet of the solor system has a ring around it?",
+                answers: [
+                    { text: "Earth", correct: false },
+                    { text: "Mars", correct: false },
+                    { text: "Saturn", correct: true },
+                    { text: "Jupiter", correct: false }
+                ]
+            },
+            {
+            question: "18. When did India become an Independent country?",
+                answers: [
+                    { text: "1942", correct: false },
+                    { text: "1945", correct: false },
+                    { text: "1947", correct: true },
+                    { text: "1949", correct: false }
+                ]
+            },
+            {
+                question: "19. Constellation refers to a group of what?",
+                answers: [
+                    { text: "Planets", correct: false },
+                    { text: "Stars", correct: true },
+                    { text: "Galaxies", correct: false },
+                    { text: "Moon", correct: false }
+                ]
+            },
+            {
+                question: "20. Which of the following is the national bird of India?",
+                answers: [
+                    { text: "Peacock", correct: true },
+                    { text: "Parrot", correct: false },
+                    { text: "Sparrow", correct: false },
+                    { text: "Pigeon", correct: false }
+                ]
+            },
+            {
+                question: "21. Eiffel Tower is a famous monument located in ?",
+                answers: [
+                    { text: "London", correct: false },
+                    { text: "New York", correct: false },
+                    { text: "Italy", correct: false },
+                    { text: "Paris", correct: true }
+                ]
+            },
+            {
+                question: "22. Why is the Great Wall of China famous?",
+                answers: [
+                    { text: "Because of it's Color", correct: false },
+                    { text: "Because of it's Nation", correct: false },
+                    { text: "Because of the Length", correct: true },
+                    { text: "Because of the Architect", correct: false }
+                ]
+            },
+
+            {
+                question: "23. The Leap Year comes after every how many years?",
+                answers: [
+                    { text: "1", correct: false },
+                    { text: "2", correct: false },
+                    { text: "3", correct: false },
+                    { text: "4", correct: true }
+                ]
+            },
+            {
+                question: "24. Who was kalpana Chawla?",
+                answers: [
+                    { text: "Scientist", correct: false },
+                    { text: "Astronaut", correct: true },
+                    { text: "Doctor", correct: false },
+                    { text: "Engineer", correct: false }
+                ]
+            },
+            {
+                question: "25. Who is called as “God of Cricket”?",
+                answers: [
+                    { text: "Sachin Tendulkar", correct: true },
+                    { text: "MS Dhoni", correct: false },
+                    { text: "Virat Kohli", correct: false },
+                    { text: "Kapil Dev", correct: false }
+                ]
+            },
+
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

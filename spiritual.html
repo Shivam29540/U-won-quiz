@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* .navbar{
+            background-color: #bb2a6b ;font-family: calibri;padding-right: 15px;padding-left: 15px;
+            width: 150%;
+            height: 50px;
+
+        }
+        .navdiv{
+            display: flex; align-items: center; justify-content:left;
+
+        }
+        li{
+            list-style: none; display: inline-block;
+
+        }
+        li a{
+            color: white; font-size: 20px; font-weight: bold; margin-right: 10px;text-align: center;
+        }
+        .log{
+            position: static;
+
+        }
+    
+body{
+    align-items: center;
+}
+
+.navbar a:hover{
+    border: 2px;
+    transform: scale(0.8); 
+}
+
+button a{
+    color:white; font-weight: bold; font-size: 15px;
+}
+.container{
+    display: flex;margin: 10px; 
+
+}
+.big{
+    height: 800px;
+    width: 100%;
+    background-image: url(../imagesp.jpg);
+    background-position: center;
+    background-attachment: scroll;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    
+}
+.navbar:hover{
+    transform: translateX(-80px);
+    transition: all 10s ease-out 0.01s;
+    transition-timing-function: linear;
+
+
+}
+        body{
+            font-family: Arial, sans-serif;
+         align-items: center;
+        }
+       
+        
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin-top:  250px;
+            margin-left: 400px;
+            padding: 1em;
+            background-color: #1c297a;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            color: aliceblue;
+        }
+
+        .btn-container {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+           
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navdiv">
+            <div class="log">
+                        <h2>More Quizes</h2></div>
+            <ul>
+                <li><a href="#">Health</a></li>
+                <li><a href="#">Art & Litrature</a></li>
+                <li><a href="mern.html">MERN Stack</a></li>
+                <li><a href="#">Fahion</a></li>
+                <li><a href="#">Entertainment</a></li>
+                <li><a href="#">Food</a></li>
+                <li><a href="#">Geography</a></li>
+                <li><a href="#">Cartoon</a></li>
+                <li><a href="#">Cartoon</a></li>
+                <li><a href="#">Cartoon</a></li>
+                <li><a href="#">Cartoon</a></li>
+
+            </ul>
+
+        </div>
+        
+
+    </nav>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1.	_______ river is known as spiritual river in india. ",
+                answers: [
+                    { text: "Yamuna", correct: false },
+                    { text: "Ganga", correct: true },
+                    { text: "sarawati", correct: false },
+                    { text: "none of these", correct: false }
+                ]
+            },
+            {
+                question: "2. Mata Vaishno Devi ji temple is located in?",
+                answers: [
+                    { text: "mathura", correct: false },
+                    { text: "mumbai", correct: false },
+                    { text: "katra", correct: true },
+                    { text: "delhi", correct: false }
+                ]
+            },
+
+            {
+                question: "3. Name the holy book of thr Muslims ?",
+                answers: [
+                    { text: "Tripitakan", correct: false },
+                    { text: "Bible", correct: false },
+                    { text: "Quaran", correct: true },
+                    { text: "None of these", correct: false }
+                ]
+            },
+            {
+                question: "4. How many Guru's are there in the Sikhism ?",
+                answers: [
+                    { text: "10", correct: true },
+                    { text: "11", correct: false },
+                    { text: "12", correct: false },
+                    { text: "15", correct: false }
+                ]
+            },
+            {
+                question: "5. The holy book of Hindu's is ?",
+                answers: [
+                    { text: "Granth", correct: false },
+                    { text: "Ved", correct: true },
+                    { text: "Puran", correct: false },
+                    { text: "None of These ", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "6. The holy book of Sikhism is______",
+                answers: [
+                    { text: "Dharam Granth", correct: true },
+                    { text: "The Sikhism", correct: false },
+                    { text: "Guru Granth sahib ji", correct: false },
+                    { text: "None of these", correct: false }
+                ]
+            },
+            {
+                question: "7. From the following, who is the founder of the Sikhism.",
+                answers: [
+                    { text: "Guru Arjan Dev ji", correct: false },
+                    { text: "Guru Teg Bahadur ji", correct: false },
+                    { text: "Guru Nanak dev ji", correct: true },
+                    { text: "Guru Gobind singh ji ", correct: false }
+                ]
+            },
+            {
+                question: "8. Devi Parvati was the Daughter of whom ?",
+                answers: [
+                    { text: "Daksha", correct: true },
+                    { text: "Rishi Gautam", correct: false },
+                    { text: "Rishi Vashishatha", correct: false },
+                    { text: "Himavan", correct: false }
+                ]
+            },
+            {
+                question: "9. The Festival of Navratri is dedicated to..?",
+                answers: [
+                    { text: "Godess Amba", correct: true },
+                    { text: "Lord Ram", correct: false },
+                    { text: "Maa kali", correct: false },
+                    { text: "Lord Shiva", correct: false }
+                ]
+            },
+            {
+                question: "10. Which of the following are the names of Goddess Durga?",
+                answers: [
+                    { text: "Vamika", correct: false },
+                    { text: "Tanisi", correct: false },
+                    { text: "Shaila", correct: false },
+                    { text: "All of these", correct: true }
+                ]
+            },
+            {
+                question: "11. Ganesha was made from clay by his mother ______, the consort of shiva. ",
+                answers: [
+                    { text: "Parvati", correct: true },
+                    { text: "Lakshmi", correct: false },
+                    { text: "Kroncha", correct: false },
+                    { text: "Krishna", correct: false }
+                ]
+            },
+            {
+                question: "12. who is the actual mother of Lord Krishna as per hindu Mythology",
+                answers: [
+                    { text: "Yashoda", correct: true },
+                    { text: "Devki", correct: false },
+                    { text: "Rukmani", correct: false },
+                    { text: "Satyabhama", correct: false }
+                ]
+            },
+            {
+                question: "13. what was the kindom of the lord krishna called?",
+                answers: [
+                    { text: "Vrindavan", correct: true },
+                    { text: "Mathura", correct: false },
+                    { text: "Dwarka", correct: false },
+                    { text: "Hastinapur", correct: false }
+                ]
+            },
+            {
+                question: "14. Who was the grandfather of guru Ravidass ji ?",
+                answers: [
+                    { text: "Vijay dass", correct: false },
+                    { text: "Santokh dass", correct: false },
+                    { text: "Kalu das", correct:true  },
+                    { text: "Meht dass", correct: false }
+                ]
+            },
+            {
+                question: "15. name the Blind son of Shiv ji ?",
+                answers: [
+                    { text: "Taraka", correct: true },
+                    { text: "Andaka", correct: false },
+                    { text: "Skanda", correct: false },
+                    { text: "Nandi", correct: false }
+                ]
+            },
+            {
+                question: "16. when is Shardiya navratri celebratedm?",
+                answers: [
+                    { text: "spring season", correct: true },
+                    { text: "Lunar month of Ashwin", correct: false },
+                    { text: "Rainy season", correct: false },
+                    { text: "None of these", correct: false }
+                ]
+            },
+            {
+                question: "17. Brahmacharini is worshipped on which day of Navratri?",
+                answers: [
+                    { text: "Second", correct: true },
+                    { text: "Fourth", correct: false },
+                    { text: "Sixth", correct: false },
+                    { text: "Seventh", correct: false }
+                ]
+            },
+            {
+                question: "18. who was the childhood friend of krishna, a poor brahmin?",
+                answers: [
+                    { text: "Yudhishtra", correct:false  },
+                    { text: "Balaram", correct: false },
+                    { text: "Sudama", correct: true },
+                    { text: "Nanda", correct: false }
+                ]
+            },
+            {
+                question: "19. In how many Raga's is the bani of satguru Ravidass ji written?",
+                answers: [
+                    { text: "16", correct: true },
+                    { text: "17", correct: false },
+                    { text: "18", correct: false },
+                    { text: "19", correct: false }
+                ]
+            },
+            {
+                question: "20. Which Guru estabhished the Khalsa Panth?",
+                answers: [
+                    { text: "Guru Gobind singh ji", correct: true },
+                    { text: "Guru nanak dev ji", correct: false },
+                    { text: "Guru Amardass Ji ", correct: false },
+                    { text: "Guru Arjan Dev ji", correct: false }
+                ]
+            },
+            {
+                question: "21. When and where the Khalsa Panth is Established ?",
+                answers: [
+                    { text: "In 1666, amritsar", correct: false },
+                    { text: "In 1699, anandpur sahib" , correct: true },
+                    { text: "in 1666, anandpur sahib", correct: false },
+                    { text: "in 1699, amritsar", correct: false }
+                ]
+            },
+            {
+                question: "22. How many Sons guru Gobind singh ji have?",
+                answers: [
+                    { text: "3", correct: false },
+                    { text: "4", correct: true },
+                    { text: "6", correct: false },
+                    { text: "5", correct: false }
+                ]
+            },
+            {
+                question: "23. who is the Founder of the Amritsar?",
+                answers: [
+                    { text: "Guru amar das ji", correct: false },
+                    { text: "Guru ram das ji", correct: true },
+                    { text: "guru arjan dev ji", correct: false },
+                    { text: "guru nanak dev ji", correct: false }
+                ]
+            },
+            {
+                question: "24. Birth place of guru nanak dev ji is______.",
+                answers: [
+                    { text: "Dera baba nanak", correct: false },
+                    { text: "Nankana sahib", correct: true },
+                    { text: "Kartarpur Sahib", correct: false },
+                    { text: "Amritsar sahib", correct: false }
+                ]
+            },
+            {
+                question: "24. who started the construction of golden temple",
+                answers: [
+                    { text: "guru nanak dev ji", correct: false },
+                    { text: "guru arjan dev ji", correct: true },
+                    { text: "guru ram dass ji", correct: false },
+                    { text: "guru har rai ji", correct: false }
+                ]
+            }
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML = '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

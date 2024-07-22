@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    <script>
+        const questions = [
+            {
+                question: "1. Which is largest continent by area?",
+                answers: [
+                    { text: "Asia", correct: true },
+                    { text: "Africa", correct: false },
+                    { text: "Europe", correct: false },
+                    { text: "north America", correct: false }
+                ]
+            },
+            {
+                question: "2. What is capital of france?",
+                answers: [
+                    { text: "Rome", correct: false },
+                    { text: "Berlin", correct: false },
+                    { text: "Madrid", correct: false },
+                    { text: "Paris", correct: true }
+                ]
+            },
+
+            {
+                question: "3. Which ocean is the largest?",
+                answers: [
+                    { text: "Atlantic Ocean", correct: false },
+                    { text: "Indian Ocean", correct: false },
+                    { text: "Arctic Ocean", correct: false },
+                    { text: "Pacific Ocean", correct: true }
+                ]
+            },
+            {
+                question: "4. Mount Everest is located in which mountain range?",
+                answers: [
+                    { text: "Himalayas", correct: true },
+                    { text: "Rockies", correct: false },
+                    { text: "Andes", correct: false },
+                    { text: "Alps", correct: false }
+                ]
+            },
+            {
+                question: "5. The sahara desert is located on which continent?",
+                answers: [
+                    { text: "Asia", correct: false },
+                    { text: "Australia", correct: false },
+                    { text: "Africa", correct: true },
+                    { text: "North America", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "6. Which country is known as the Land of the Rising Sun?",
+                answers: [
+                    { text: "China", correct: false },
+                    { text: "Thailand", correct: false },
+                    { text: "Japan", correct: true },
+                    { text: "India", correct: false }
+                ]
+            },
+            {
+                question: "7. What is the longest river in the world?",
+                answers: [
+                    { text: "Nile", correct: true },
+                    { text: "Amazon", correct: false },
+                    { text: "Yangtze", correct: false },
+                    { text: "Mississippi", correct: false }
+                ]
+            },
+            {
+                question: "8. Which country has the most population?",
+                answers: [
+                    { text: "United States", correct: false },
+                    { text: "India", correct: false },
+                    { text: "Indonesia", correct: false },
+                    { text: "China", correct: true }
+                ]
+            },
+
+            {
+                question: "9. What is the capital of Canada?",
+                answers: [
+                    { text: "Tronto", correct: false },
+                    { text: "Vancouver", correct: false },
+                    { text: "Montreal", correct: false },
+                    { text: "Ottawa", correct: true }
+                ]
+            },
+            {
+                question: "10. Which of the following is the smallest country in the world by area?",
+                answers: [
+                    { text: "Vantican City", correct: true },
+                    { text: "Monaco", correct: false },
+                    { text: "San Marino", correct: false },
+                    { text: "Liechtenstein", correct: false }
+                ]
+            },
+            {
+                question: "11. Which river runs through Paris?",
+                answers: [
+                    { text: "Thames", correct: false },
+                    { text: "Danube", correct: false },
+                    { text: "Seine", correct: true },
+                    { text: "Rhine", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "12. Which desert is the largest in the world?",
+                answers: [
+                    { text: "Gobi", correct: false },
+                    { text: "Kalahari", correct: false },
+                    { text: "Antarctic Desert", correct: true },
+                    { text: "Sahara", correct: false }
+                ]
+            },
+            {
+                question: "13. Which country is not part of Scandinavia?",
+                answers: [
+                    { text: "Finland", correct: true },
+                    { text: "Norway", correct: false },
+                    { text: "Sweden", correct: false },
+                    { text: "Denmark", correct: false }
+                ]
+            },
+            {
+                question: "14. The Great Barrier Reef is located off the coast of which country?",
+                answers: [
+                    { text: "South Africa", correct: false },
+                    { text: "Brazil", correct: false },
+                    { text: "India", correct: false },
+                    { text: "Australia", correct: true }
+                ]
+            },
+
+            {
+                question: "15. Which is the longest river in Europe?",
+                answers: [
+                    { text: "Danube", correct: false },
+                    { text: "Rhine", correct: false },
+                    { text: "Seine", correct: false },
+                    { text: "Volga", correct: true }
+                ]
+            },
+            {
+                question: "16. Which country has the most natural lakes?",
+                answers: [
+                    { text: "Canada", correct: true },
+                    { text: "United States", correct: false },
+                    { text: "Russia", correct: false },
+                    { text: "Brazil", correct: false }
+                ]
+            },
+            {
+                question: "17. What is the capital of Australia?",
+                answers: [
+                    { text: "Sydeny", correct: false },
+                    { text: "Melbourne", correct: false },
+                    { text: "Canberra", correct: true },
+                    { text: "Brisbane", correct: false }
+                ]
+            },
+            {
+            question: "18. Which country does not share a border with Brazil?",
+                answers: [
+                    { text: "Chile", correct: true },
+                    { text: "Argentina", correct: false },
+                    { text: "Peru", correct: false },
+                    { text: "Venezuela", correct: false }
+                ]
+            },
+            {
+                question: "19. Which European country has the highest population density?",
+                answers: [
+                    { text: "Germany", correct: false },
+                    { text: "France", correct: false },
+                    { text: "Netherlands", correct: true },
+                    { text: "United kingdom", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "20. What is the capital of South Korea?",
+                answers: [
+                    { text: "Pyongyang", correct: false },
+                    { text: "Tokyo", correct: false },
+                    { text: "Seoul", correct: true },
+                    { text: "Beijing", correct: false }
+                ]
+            },
+            {
+                question: "21. Which of the following is the largest island in the world?",
+                answers: [
+                    { text: "Greenland", correct: true },
+                    { text: "New Guinea", correct: false },
+                    { text: "Borneo", correct: false },
+                    { text: "Madagascar", correct: false }
+                ]
+            },
+            {
+                question: "22. Which mountain range forms the border between Europe and Asia?",
+                answers: [
+                    { text: "Rocky Mountains", correct: false },
+                    { text: "Andes Mountains", correct: false },
+                    { text: "Alps", correct: false },
+                    { text: "Ural Mountains", correct: true }
+                ]
+            },
+
+            {
+                question: "23. What is the primary language spoken in Brazil?",
+                answers: [
+                    { text: "English", correct: false },
+                    { text: "Spanish", correct: false },
+                    { text: "French", correct: false },
+                    { text: "Portuguese", correct: true }
+                ]
+            },
+            {
+                question: "24. Which country is completely landlocked?",
+                answers: [
+                    { text: "Switzerland", correct: true },
+                    { text: "Italy", correct: false },
+                    { text: "Russia", correct: false },
+                    { text: "Brazil", correct: false }
+                ]
+            },
+            {
+                question: "25. Which US state is known as the “Sunshine State”?",
+                answers: [
+                    { text: "California", correct: false },
+                    { text: "Texas", correct: false },
+                    { text: "Florida", correct: true },
+                    { text: "Arizona", correct: false }
+                ]
+            },
+
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML = '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

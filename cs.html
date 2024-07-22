@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1. What is the fullform of CSS?",
+                answers: [
+                    { text: "cascading sheets style", correct: false},
+                    { text: "correct style sheet", correct: false },
+                    { text: "cascading style sheets", correct: true },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+                question: "2. What is the primary purpose of css in web designing?",
+                answers: [
+                    { text: "to create ewb pages", correct: false },
+                    { text: "to store data", correct: false },
+                    { text: "to style web pages", correct: true },
+                    { text: "to program web web applications", correct:false }
+                ]
+            },
+
+            {
+                question: "3. which of the following is a valid way to integrate css into a webpage?",
+                answers: [
+                    { text: "internal", correct: false },
+                    { text: "external", correct: false },
+                    { text: "inline", correct: false },
+                    { text: "all of the above", correct: true }
+                ]
+            },
+            {
+                question: "4. Which css propertynis used to change the text color of the element?",
+                answers: [
+                    { text: "text-color", correct: false },
+                    { text: "color", correct: true },
+                    { text: "font-color", correct: false },
+                    { text: "background-color", correct: false }
+                ]
+            },
+            {
+            question: "5. Which selector is used to target an element based on its id?",
+             answers: [
+                    { text: ".id", correct: false },
+                    { text: "#id", correct: true },
+                    { text: "*id", correct: false },
+                    { text: "id", correct: false }
+                ]
+            },
+            {
+            question: "6. What does the universal selector (*) do in css?",
+             answers: [
+                    { text: "targets no element", correct: false },
+                    { text: "targets all elments in a document", correct: true },
+                    { text: "targets the body element", correct: false},
+                    { text: "targets elements with a specific id", correct: false }
+                ]
+            },
+            {
+            question: "7. Which property is used to set the background color of an element?",
+             answers: [
+                    { text: "background-color", correct: true },
+                    { text: "color", correct: false },
+                    { text: "bgcolor", correct: false },
+                    { text: "background", correct: false }
+                ]
+            },
+            {
+            question: "8. How do you select elements with the class name 'example'?",
+             answers: [
+                    { text: "*example", correct: false },
+                    { text: ".example", correct: true },
+                    { text: "example", correct: false },
+                    { text: "*example", correct: false }
+                ]
+            },
+            {
+            question: "9. What is the correct syntax to select all <p> elements inside <div> elements?",
+             answers: [
+                    { text: "div p", correct: true },
+                    { text: "div+p", correct: false },
+                    { text: "div>p", correct: false },
+                    { text: "p>div", correct: false }
+                ]
+            },
+            {
+            question: "10. How do you select an element with the class 'my class'?",
+             answers: [
+                    { text: "#my-class", correct: false },
+                    { text: "my-class", correct: false },
+                    { text: ".my-class", correct: true },
+                    { text: "<my-class", correct: false }
+                ]
+            },
+            {
+            question: "11. Which property is used to change the text color of an element?",
+             answers: [
+                    { text: "font-color",correct:false},
+                    { text: "text-color", correct: false },
+                    { text: "color", correct: true },
+                    { text: "text", correct: false }
+                ]
+            },
+            {
+            question: "12. Which property is used to change the font of an element?",
+             answers: [
+                    { text: "font-family", correct: true },
+                    { text: "font-style", correct: false },
+                    { text: "text-font", correct: false},
+                    { text: "text-family", correct: false }
+                ]
+            },
+            {
+            question: "13. Which property is used to change the text size of an element?",
+             answers: [
+                    { text: "text-size", correct: false },
+                    { text: "text-style", correct: false },
+                    { text: "font-size", correct: true },
+                    { text: "size", correct: false }
+                ]
+            },
+            {
+            question: "14. How do you make each word in a text start with a capital letter?",
+             answers: [
+                    { text: "text-appear", correct: false },
+                    { text: "text-transform", correct: true },
+                    { text: "text-capitalize", correct: false },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "15. Which of the following represents a comment?",
+             answers: [
+                    { text: "/!comments!/", correct: false },
+                    { text: "/comments/", correct: true },
+                    { text: "!comment/", correct: false},
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "16. Which rule can be used to define style rules for multiple media types in a singel embaded style sheet?",
+             answers: [
+                    { text: "@media", correct: true },
+                    { text: "@charset", correct: false },
+                    { text: "@font-face", correct: false },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "17. which css property will let you apply an underline to the text of an element?",
+             answers: [
+                    { text: "text-underline", correct: false },
+                    { text: "underline", correct: false },
+                    { text: "text-dacoration", correct: true },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "18. Which of the following is not an acceptable value for the list-style-position property?",
+             answers: [
+                    { text: "inside", correct: false },
+                    { text: "within", correct: true },
+                    { text: "outside", correct: false },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "19. which of the following is not a valid css unit?",
+             answers: [
+                    { text: "vh", correct: false },
+                    { text: "px", correct: false },
+                    { text: "pix", correct: true },
+                    { text: "em", correct: false }
+                ]
+            },
+            {
+            question: "20. what tag will let you bind an external.css file to a parent .html file?",
+             answers: [
+                    { text: "style", correct: false },
+                    { text: "css", correct: false },
+                    { text: "link", correct: true },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "21. Which css peoperty allows you to control the spacing between html items?",
+             answers: [
+                    { text: "spacing", correct: false },
+                    { text: "margin", correct: true },
+                    { text: "padding", correct: false },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "22. Which tag supports css code between its opening and closing tag?",
+             answers: [
+                    { text: "<div>.....</div>", correct: false },
+                    { text: "<style>....</style>", correct: true },
+                    { text: "<css>....</css>", correct: false},
+                    { text: "<link>....</link>", correct: false }
+                ]
+            },
+            {
+            question: "23. Which of the following property represent the order of flex items in the grid container?",
+             answers: [
+                    { text: "order", correct: true },
+                    { text: "float", correct: false },
+                    { text: "overflow", correct: false },
+                    { text: "all of the above", correct: false }
+                ]
+            },
+            {
+            question: "24. Which element is used to represent the transparency of an element in css?",
+             answers: [
+                    { text: "opacity", correct: true},
+                    { text: "hover", correct: false},
+                    { text: "transparent", correct: false},
+                    { text: "overlay", correct: false }
+                ]
+            },
+            {
+            question: "25. Which of the following property defines the gap between columns in a multicolumn text flow?",
+             answers: [
+                    { text: "column-float", correct: false },
+                    { text: "column-flow", correct: false},
+                    { text: "column-gap", correct: true},
+                    { text:"column-width", correct: false }
+                ]
+            },    
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

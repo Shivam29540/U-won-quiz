@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius:8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question:"1.Which sign is symbolized by the water bearer?",
+                answers: [
+                    { text: "Aquarius", correct: true },
+                    { text: "Libra", correct: false },
+                    { text: "Aries", correct: false },
+                    { text: "Scorpio", correct: false }
+                ]
+            },
+            {
+                question:"2.Which sign is symbolized by the crab?",
+                answers: [
+                    { text: "Pieces", correct: false },
+                    { text: "Aquarius", correct: false },
+                    { text: "Virgo", correct: false },
+                    { text: "Cancer", correct: true }
+                ]
+            },
+
+            {
+                question:"3.Which sign is ruled by the planet Pluto?",
+                answers: [
+                    { text: "Pisces", correct: false },
+                    { text: "Gemini", correct: false },
+                    { text: "Cancer", correct: false },
+                    { text: "Scorpio", correct: true }
+                ]
+            },
+            {
+                question:"4.Which sign is known for its depth and emotional intelligence?",
+                answers: [
+                    { text: "scorpio", correct: true },
+                    { text: "Gemini", correct: false },
+                    { text: "Sagittarius", correct: false },
+                    { text: "Capricon", correct: false }
+                ]
+            },
+            {
+                question: "5.Which sign is associated with being diplomatic and fair-minded?",
+                answers: [
+                    { text: "Taurus", correct: false },
+                    { text: "Gemini", correct: false },
+                    { text: "Libra", correct: true },
+                    { text: "Pisces", correct: false }
+                ]
+            },
+            {
+                question:"6.Which sign is symbolized by the lion",
+                answers: [
+                    { text: "Libra", correct: false },
+                    { text: "virgo", correct: false },
+                    { text: "Leo", correct: true },
+                    { text: "Sagittarius", correct: false }
+                ]
+            },
+      {
+        question:"7.Which sign is associated with being adventurous and optimistic?",
+        answers: [
+                    {text: "Taurus", correct: false },
+                    { text: "Capricon", correct: false },
+                    { text: "Sagittarius", correct: true },
+                    { text: "Pisces", correct: false }
+                
+        ]
+      },
+    {
+        question:"8.Which sign is ruled by the Moon?",
+        answers:[
+                { text:"Cancer",correct:true},
+              {text:"Scorpio",correct: false },
+                { text:"Aries", correct:false},
+                {text:"Leo", correct:false}
+    ]
+    },
+    {
+        question:"9.Which sign is known for its dual nature?",
+        answers:[
+                { text:"Gemini",correct:true},
+               {text:"Scorpio",correct: false },
+                { text:"Aries", correct:false},
+                {text:"Leo", correct:false}
+    ]  
+
+    } ,
+    
+{
+    question:"10.Which sign is symbolized by the ram?",
+        answers:[
+                { text:"Gemini",correct:true},
+              {text:"Scorpio",correct: false },
+                { text:"Aries", correct:true},
+                {text:"Tarus", correct:false}
+    ]  
+
+},
+
+{
+    question:"11.Which sign is symbolized by the scales?",
+        answers:[
+                { text:"Gemini",correct:false},
+               {text:"Aries",correct: false },
+                {text:"Libra", correct:true},
+                {text:"Scorpio", correct:false}
+
+    ]  
+},
+{
+    question:"12.Which sign is associated with being practical and reliable?",
+        answers:[
+                { text:"Pisces",correct:false},
+              {text:"Cancer",correct: false },
+                { text:"Libra", correct:false},
+                {text:"Capricorn", correct:true}
+]
+},
+{
+    question:"13.Which sign is ruled by the planet Mercury?",
+        answers:[
+                { text:"Pisces",correct:false},
+              {text:"Cancer",correct: false },
+                { text:"Gemini", correct:true},
+                {text:"Leo", correct:false}
+]
+},
+{
+    question:"14.Which sign is known for being sensitive and intuitive?",
+        answers:[
+                { text:"Pisces",correct:true},
+              {text:"Aquarius",correct: false },
+                { text:"Aries", correct:false},
+                {text:"Virgo", correct:false}
+]
+},
+
+{
+      question:"15.Which sign is symbolized by the twins?",
+        answers:[
+                { text:"Gemini",correct:true},
+              {text:"Aries",correct: false },
+                { text:"Libra", correct:false},
+                {text:"Scorpio", correct:false}
+
+]
+},
+{
+    question:"16.Which sign is associated with being romantic and idealistic?",
+        answers:[
+                { text:"Pisces",correct:false},
+              {text:"Cancer",correct: false },
+                { text:"Libra", correct:true},
+                {text:"Capricorn", correct:false}
+]
+},
+{
+    question:"17.Which sign is symbolized by the bull?",
+        answers:[
+                { text:"Gemini",correct:false},
+              {text:"Aries",correct: false },
+                { text:"Taurus", correct:true},
+                {text:"Scorpio", correct:false}
+]
+},
+{
+    question:"18.Which sign is known for its intense and passionate nature?",
+        answers:[
+                { text:"Leo",correct:false},
+               {text:"Gemini",correct: false },
+                { text:"Scorpio", correct:true},
+                {text:"Aquarius", correct:false}
+]
+},
+{
+    question:"19.Which sign is associated with being adaptable and versatile?",
+        answers:[
+                { text:"Gemini",correct:true},
+              {text:"Pisces",correct: false },
+                { text:"Sagittarius", correct:false},
+                {text:"Capricorn", correct:false}
+] 
+},
+{
+    question:"20.Which sign is symbolized by the archer?",
+        answers:[
+                { text:"Gemini",correct:false},
+               {text:"Aries",correct: false },
+                { text:"Sagittarius", correct:true},
+                {text:"Scorpio", correct:false}
+]
+},
+{
+    question:"21.Which sign is symbolized by the fish?",
+        answers:[
+                { text:"Gemini",correct:false},
+              {text:"Aries",correct: false },
+                { text:"Pisces", correct:true},
+                {text:"Scorpio", correct:false}
+]
+},
+{
+    question:"22.Which sign is symbolized by the centaur archer?",
+        answers:[
+                { text:"Gemini",correct:false},
+              {text:"Aries",correct: false },
+                { text:"Sagittarius", correct:true},
+                {text:"Scorpio", correct:false}
+]
+},
+{
+    question:"23.Which sign is ruled by the planet Neptune?",
+        answers:[
+                { text:"Gemini",correct:false},
+              {text:"Capricorn",correct: false },
+                { text:"Taurus", correct:false},
+                {text:"Pisces", correct:true}
+]
+},
+{
+    question:"24.Which sign is symbolized by the goat-fish hybrid?",
+        answers:[
+                { text:"Gemini",correct:false},
+              {text:"Aries",correct: false },
+                { text:"Capricorn", correct:true},
+                {text:"Scorpio", correct:false}
+]
+},
+{
+    question:"25.Which sign is ruled by the planet Uranus?",
+        answers:[
+                { text:"Gemini",correct:false},
+              {text:"Capricorn",correct: false },
+                { text:"Taurus", correct:false},
+                {text:"Aquarius", correct:true}
+]
+}
+];
+const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

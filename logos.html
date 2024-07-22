@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1. Which of the following companies has a swoosh as its logo?",
+                answers: [
+                    { text: "Nike", correct: true },
+                    { text: "Adidas", correct: false },
+                    { text: "Puma", correct: false },
+                    { text: "Reebok", correct: false }
+                ]
+            },
+            {
+                question: "2. The logo of which tech giant features a bitten apple?",
+                answers: [
+                    { text: "Microsoft", correct: false },
+                    { text: "Google", correct: false },
+                    { text: "Amazon", correct: false },
+                    { text: "Apple", correct: true }
+                ]
+            },
+
+            {
+                question: "3. Which fast-food chain is known for its golden arches logo?",
+                answers: [
+                    { text: "Burger King", correct: false },
+                    { text: "Wendy's", correct: false },
+                    { text: "KFC", correct: false },
+                    { text: "McDonald's", correct: true }
+                ]
+            },
+            {
+                question: "4. What is the dominant color in Coca-Cola's logo?",
+                answers: [
+                    { text: "Red", correct: true },
+                    { text: "Green", correct: false },
+                    { text: "Blue", correct: false },
+                    { text: "Yellow", correct: false }
+                ]
+            },
+            {
+                question: "5. Which car brand has a prancing horse in its logo?",
+                answers: [
+                    { text: "Lamborghini  ", correct: false },
+                    { text: "Porsche  ", correct: false },
+                    { text: "Ferrari", correct: true },
+                    { text: "Maserati", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "6. The iconic swoosh logo of Nike was designed by:",
+                answers: [
+                    { text: "Phil Knight", correct: false },
+                    { text: "Tinker Hatfield", correct: false },
+                    { text: "Carolyn Davidson", correct: true },
+                    { text: "Peter Moore", correct: false }
+                ]
+            },
+            {
+                question: "7. The three-pointed star logo belongs to which automobile manufacturer?",
+                answers: [
+                    { text: "Mercedes-Benz", correct: true },
+                    { text: "BMW", correct: false },
+                    { text: "Lexus", correct: false },
+                    { text: "Audi", correct: false }
+                ]
+            },
+            {
+                question: "8. Which brand’s logo features a white bear??",
+                answers: [
+                    { text: "Polar  ", correct: false },
+                    { text: "Metro-Goldwyn-Mayer", correct: false },
+                    { text: "Panda Express", correct: false },
+                    { text: "Coca-Cola", correct: true }
+                ]
+            },
+
+            {
+                question: "9. The logo of which company features a peacock with a colorful tail?",
+                answers: [
+                    { text: "CBS", correct: false },
+                    { text: "ABC", correct: false },
+                    { text: "Fox", correct: false },
+                    { text: "NBC", correct: true }
+                ]
+            },
+            {
+                question: "10. The interlocking CC logo belongs to which fashion brand?",
+                answers: [
+                    { text: "Chanel", correct: true },
+                    { text: "Gucci  ", correct: false },
+                    { text: "Prada ", correct: false },
+                    { text: "Versace", correct: false }
+                ]
+            },
+            {
+                question: "11. The emblem of BMW is derived from:",
+                answers: [
+                    { text: "A propeller", correct: false },
+                    { text: "The founder's initials", correct: false },
+                    { text: "The colors of the Bavarian flag", correct: true },
+                    { text: "A steering wheel", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "12. Which company’s logo includes a blue oval?",
+                answers: [
+                    { text: "Toyota ", correct: false },
+                    { text: "Volkswagen", correct: false },
+                    { text: "Ford", correct: true },
+                    { text: "Honda", correct: false }
+                ]
+            },
+            {
+                question: "13. The logo of Google is predominantly:",
+                answers: [
+                    { text: "Multi-colored", correct: true },
+                    { text: "Green and black", correct: false },
+                    { text: "Red and white", correct: false },
+                    { text: "Blue and yellow", correct: false }
+                ]
+            },
+            {
+                question: "14. Which technology company logo is a smiling arrow that points from A to Z?",
+                answers: [
+                    { text: "Alibaba", correct: false },
+                    { text: "Rakuten", correct: false },
+                    { text: "eBay", correct: false },
+                    { text: "Amazon", correct: true }
+                ]
+            },
+
+            {
+                question: "15. The leaping cat logo belongs to which car brand?",
+                answers: [
+                    { text: "Peugeot  ", correct: false },
+                    { text: "Renault", correct: false },
+                    { text: "Subaru  ", correct: false },
+                    { text: "Jaguar", correct: true }
+                ]
+            },
+            {
+                question: "16. Which social media platform has a blue bird as its logo?",
+                answers: [
+                    { text: "Twitter", correct: true },
+                    { text: "Facebook ", correct: false },
+                    { text: "Instagram", correct: false },
+                    { text: "LinkedIn", correct: false }
+                ]
+            },
+            {
+                question: "17. The shell logo is used by which company?",
+                answers: [
+                    { text: "BP", correct: false },
+                    { text: "Exxon", correct: false },
+                    { text: "Shell", correct: true },
+                    { text: "Chevron", correct: false }
+                ]
+            },
+            {
+            question: "18. The double-tailed mermaid logo is associated with:",
+                answers: [
+                    { text: "Starbucks", correct: true },
+                    { text: "Little Mermaid", correct: false },
+                    { text: "Disney", correct: false },
+                    { text: "SeaWorld", correct: false }
+                ]
+            },
+            {
+                question: "19. Which company logo features a silhouette of a famous mountain?",
+                answers: [
+                    { text: "Universal Pictures", correct: false },
+                    { text: "Warner Bros", correct: false },
+                    { text: "Paramount Pictures", correct: true },
+                    { text: "20th Century Fox", correct: false }
+                ]
+            },
+            // Continue adding questions up to 50
+            {
+                question: "20. Which luxury car brand logo features a trident?",
+                answers: [
+                    { text: "Bugatti", correct: false },
+                    { text: "Alfa Romeo", correct: false },
+                    { text: "Maserati", correct: true },
+                    { text: "Pagani", correct: false }
+                ]
+            },
+            {
+                question: "21. The swooping bird logo belongs to which airline?",
+                answers: [
+                    { text: "Qantas", correct: true },
+                    { text: "Emirates", correct: false },
+                    { text: "Lufthansa  ", correct: false },
+                    { text: "American Airlines", correct: false }
+                ]
+            },
+            {
+                question: "22. Which tech company’s logo includes a rainbow-colored G?",
+                answers: [
+                    { text: "Apple", correct: false },
+                    { text: "Microsoft", correct: false },
+                    { text: "IBM", correct: false },
+                    { text: "Google", correct: true }
+                ]
+            },
+
+            {
+                question: "23. The logo of which coffee brand features a crowned siren?",
+                answers: [
+                    { text: "Dunkin' Donuts", correct: false },
+                    { text: "Tim Hortons", correct: false },
+                    { text: "Costa Coffee", correct: false },
+                    { text: "Starbucks", correct: true }
+                ]
+            },
+            {
+                question: "24.  Which sports brand uses a puma in its logo?",
+                answers: [
+                    { text: "Puma", correct: true },
+                    { text: "Nike", correct: false },
+                    { text: "Reebok", correct: false },
+                    { text: "Under Armour", correct: false }
+                ]
+            },
+            {
+                question: "25. Which luxury fashion brand's logo features an intertwined G and G?",
+                answers: [
+                    { text: "Gucci", correct: false },
+                    { text: "Giorgio Armani", correct: false },
+                    { text: "Givenchy", correct: true },
+                    { text: "Versace", correct: false }
+                ]
+            },
+
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

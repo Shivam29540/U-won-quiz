@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif
+            
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 800px;
+            margin: auto;
+            padding:1em;
+            align-items: center;
+            background-color: #4bdada;
+            border-radius: 30px;
+            box-shadow: 0 0 10px rgba(230, 63, 63, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+        
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #62c365;
+        }
+
+        .wrong {
+            background-color: #d14f46;
+        }
+
+        .hide {
+            display: none;
+            
+        }
+        .next-btn{
+            align-items: center;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: " 1.Who painted the Mona Lisa?",
+                answers: [
+                    { text: "Michelangelo", correct: false},
+                    { text: "Leonardo the vinci", correct:true },
+                    { text: "Pablo Picasso", correct: false },
+                    { text: "Vincent van Goph", correct: false }
+                ]
+            },
+            {
+                question: "2.Who wrote the epic poem Meghadutta?",
+                answers: [
+                    { text: "Kalidasa", correct: true },
+                    { text: "Tulsidas", correct: false },
+                    { text: "Rabindranath Tagore", correct:false  },
+                    { text: "Mirza Ghalib", correct: false }
+                ]
+            },
+
+            {
+                question: "3.The autobiography 'My Experiments with truth' is written by",
+                answers: [
+                    { text: "Jawaharlal Nehru", correct: false },
+                    { text: "Mahatma Gandhi", correct: true },
+                    { text: "Bhagat Singh", correct: false },
+                    { text: "Subhash Chandra Bose", correct: false }
+                ]
+            },
+            {
+                question: "4.Who is known as the 'Nightingale of India'for her poetry?",
+                answers: [
+                    { text: "Sarojini Naidu", correct: true},
+                    { text: "Kamala Das", correct: false },
+                    { text: "Amrita Pritam", correct:false },
+                    { text: "Mahadevi Verma", correct: false }
+                ]
+            },
+            {
+                question: "5.'Wings of Fire' is the autobiography of",
+                
+                answers: [
+                    { text: "Dr. APJ Abdul Kalam", correct: true },
+                    { text: "Mahatma Gandhi", correct: false },
+                    { text: "Nelson Mandela", correct: true },
+                    { text: "Albert Einstein", correct: false }
+                ]
+            },
+            
+            {
+                question: "6.The Ajanta Caves are located in ",
+                answers: [
+                    { text: "Maharashtra ", correct: true },
+                    { text: "Uttar Pradesh", correct: false },
+                    { text: "Madhya Pradesh", correct: false },
+                    { text: "Bihar", correct: false }
+                ]
+            },
+            {
+                question: "7.Who is known as the 'Father of Indian Modern Art'?",
+                answers: [
+                    { text: "Amrita Sher Gill", correct: false },
+                    { text: "Jamini Roy", correct: false },
+                    { text: "Rabindranath Tagore", correct: false },
+                    { text: "Raja Ravi Varma", correct: true }
+                ]
+            },
+            {
+                question: "8.How many vedas are there in indian literature?",
+                answers: [
+                    { text: "Three", correct:false},
+                    { text: "Four", correct: true },
+                    { text: "Five", correct: false },
+                    { text: "Six", correct: false }
+                ]
+            },
+            {
+                question: "9.Which Indian state is renowned for its traditional kalamkari art form?",
+                answers: [
+                    { text: "Punjab", correct: false},
+                    { text: "Andhra Pradesh", correct:true  },
+                    { text: "Manipur", correct: false },
+                    { text: "Maharashtra", correct: false }
+                ]
+            },
+            {
+                question: "10.Raja Ravi Verma was a famous",
+                answers: [
+                    { text: "Painter", correct: true},
+                    { text: "Musician", correct: false },
+                    { text: "Singer", correct: false },
+                    { text: "Physician", correct: false }
+                ]
+            },
+            {
+                question: "11.Japenese art of paper folding is known as",
+                answers: [
+                    { text: "Haiku", correct: false},
+                    { text: "Ikebana", correct: false },
+                    { text: "Origami", correct: true },
+                    { text: "Karaoke", correct: false }
+                ]
+            },
+            {
+                question: "12.In which city is the Film and Television Institute of India located",
+                answers: [
+                    { text: "New Delhi", correct:false },
+                    { text: "Mumbai", correct: false },
+                    { text: "Ahmedabad", correct: false },
+                    { text: "Pune", correct: true }
+                ]
+            },
+            {
+                question: "13.The city famous for its Chikankari work of embroidery is ",
+                answers: [
+                    { text: "Ludhiana", correct: false},
+                    { text: "Chamba", correct: false },
+                    { text: "Barmer", correct: false},
+                    { text: "Lucknow", correct: true }
+                ]
+            },
+            {
+                question: "14.Who wrote the lyrics of the song ' Aye Mere Watan k Logo'?",
+                answers: [
+                    { text: "Pradeep", correct:true },
+                    { text: "Manoj Kumar", correct: false },
+                    { text: "Shailendra", correct: false },
+                    { text: "Raghupati Sahay Firaq", correct: false }
+                ]
+            },
+            {
+                question: "15.Flamingo Festival is organised in which state?",
+                answers: [
+                    { text: "Telangana", correct: false},
+                    { text: "Karnataka", correct:false  },
+                    { text: "Nagaland", correct: false },
+                    { text: "Andhra Pradesh", correct: true }
+                ]
+            },
+            {
+                question: "16.Which city is known as Pink City?",
+                answers: [
+                    { text: "Ludhiana", correct:false },
+                    { text: "Chandigarh", correct: false },
+                    { text: "Jaipur", correct: true },
+                    { text: "Jamshedpur", correct: false }
+                ]
+            },
+            {
+                question: "17.Who is considered the author of Mahabharta?",
+                answers: [
+                    { text: "Vyasa", correct:true },
+                    { text: "Valmiki", correct: false },
+                    { text: "Tulsidas", correct: false },
+                    { text: "kalidasa", correct:false  }
+                ]
+            },
+            {
+                question: "18.Which famous Mughal ruler is a notable patron of the arts?",
+                answers: [
+                    { text: "Akbar", correct:true },
+                    { text: "Aurangzeb", correct: false },
+                    { text: "Shah Jahan", correct: false },
+                    { text: "Babur", correct: false }
+                ]
+            },
+            {
+                question: "19.In which year Rabindranath Tagore was awarded the Nobel Prize?",
+                answers: [
+                    { text: "1913", correct:true },
+                    { text: "1923", correct: false },
+                    { text: "1935", correct: false },
+                    { text: "1947", correct: false}
+                ]
+            },
+            {
+                question: "20.Who authored the famous Indian Epic Ramayana?",
+                answers: [
+                    { text: "Vyasa", correct:false },
+                    { text: "Valmiki", correct: true },
+                    { text: "Kalidasa", correct: false },
+                    { text: "Tulsidas", correct: false}
+                ]
+            },
+            {
+                question: "21.Which classical dance form originated in state of Kerala?",
+                answers: [
+                    { text: "Bharatnatyam", correct:false },
+                    { text: "Kathakali", correct: true },
+                    { text: "Kuchipudi", correct:false  },
+                    { text: "Manipuri", correct: false}
+                ]
+            },
+            {
+                question: "22.Which ruler is responsible for construction of Taj Mahal?",
+                answers: [
+                    { text: "Akbar ", correct:false },
+                    { text: "Aurangzeb", correct: false },
+                    { text: "Shahjahan", correct:true },
+                    { text: "Babur", correct: false}
+                ]
+            },
+            {
+                question: "23.Meira Paibi is associated with which Indian State?",
+                answers: [
+                    { text: "Kerala", correct:false },
+                    { text: "Madhya Pradesh", correct: false },
+                    { text: "Uttar Pradesh", correct: false },
+                    { text: "Manipur", correct:true }
+                ]
+            },
+            {
+                question: "24.Where is Ker Puja festival celebrated?",
+                answers: [
+                    { text: "Tripura", correct:true },
+                    { text: "West Bengal", correct: false },
+                    { text: "Odisha", correct: false },
+                    { text: "Kerala", correct: false}
+                ]
+            },
+            {
+                question: "25.Who authored the famous play 'Shakuntala'?",
+                answers: [
+                    { text: "Kalidasa", correct:true },
+                    { text: "Bhasha", correct: false },
+                    { text: "Vishakhadatta", correct: false },
+                    { text: "Harsha", correct: false}
+                ]
+            },
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

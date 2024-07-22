@@ -1,0 +1,124 @@
+.navbar{
+    background-color: #bb2a6b ;font-family: calibri;padding-right: 15px;padding-left: 15px;
+    width: 150%;
+    height: 50px;
+
+}
+.navdiv{
+    display: flex; align-items: center; justify-content:left;
+
+}
+li{
+    list-style: none; display: inline-block;
+
+}
+li a{
+    color: white; font-size: 20px; font-weight: bold; margin-right: 10px;text-align: center;
+}
+.log{
+    position: static;
+
+}
+
+body{
+align-items: center;
+background-image: url(https://t3.ftcdn.net/jpg/03/09/92/64/360_F_309926448_dcWG8ltJj1rYxWTb7RwWoWy1JqngkI9D.jpg);
+}
+
+.navbar a:hover{
+border: 2px;
+transform: scale(0.8); 
+}
+
+button a{
+color:white; font-weight: bold; font-size: 15px;
+}
+.container{
+display: flex;margin: 10px; 
+
+}
+.big{
+height: 800px;
+width: 100%;
+background-image: url(../imagesp.jpg);
+background-position: center;
+background-attachment: scroll;
+background-size: cover;
+background-repeat: no-repeat;
+opacity: 0.5;
+
+}
+.navbar:hover{
+transform: translateX(-80px);
+transition: all 10s ease-out 0.01s;
+transition-timing-function: linear;
+
+
+}
+body{
+    font-family: Arial, sans-serif;
+ align-items: center;
+}
+
+
+.big{
+    height: 800px;
+    width: 100%;
+    background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+    background-repeat:no-repeat ;
+    background-size: cover;
+    opacity: 0.5;
+}
+#quiz-container {
+    max-width: 600px;
+    margin-top:  180px;
+    margin-left: 400px;
+    padding: 1em;
+    backdrop-filter: blur(50px);
+    border: 3px white solid;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    color: aliceblue;
+}
+
+.btn-container {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn {
+   
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.correct {
+    background-color: #4CAF50;
+}
+
+.wrong {
+    background-color: #f44336;
+}
+
+.hide {
+    display: none;
+}
+.button1{
+    margin-top: 15px;
+    background-color: #6298f5;
+     font: monospace ;
+     margin-left: 40%;
+     margin-right: 25px;
+     border: white solid 2px;
+     border-radius: 10px; padding: 10px;width: 150px;
+     color:white; font-weight: bold; font-size: 15px;
+    
+}
+.bt{
+    align-items: center;
+    justify-content: space-between;
+}

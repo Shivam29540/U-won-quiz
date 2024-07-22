@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        }*/
+    </style> 
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1. What is the sum of 130+125+191?",
+                answers: [
+                    { text: "335", correct: false },
+                    { text: "456", correct: false },
+                    { text: "446", correct: true },
+                    { text: "426", correct: false }
+                ]
+            },
+            {
+                question: "2. If we minus from 712 from 1500 , how much do we get?",
+                answers: [
+                    { text: "788", correct: true },
+                    { text: "778", correct: false },
+                    { text: "768", correct: false },
+                    { text: "758", correct: false }
+                ]
+            },
+
+            {
+                question: "3. 50 times of 8 is eqal to: ",
+                answers: [
+                    { text: "80", correct: false },
+                    { text: "400", correct: true },
+                    { text: "800", correct: false },
+                    { text: "4000", correct: false }
+                ]
+            },
+            {
+                question: "4. 110 divided by 10 is: ",
+                answers: [
+                    { text: "11", correct: true },
+                    { text: "10", correct: false },
+                    { text: "7", correct: false },
+                    { text: "5", correct: false }
+                ]
+            },
+            {
+                question: "5. 20+(90/2) is equal to: ",
+                answers: [
+                    { text: "50", correct: false },
+                    { text:"55", correct: false },
+                    { text: "60", correct: false },
+                    { text: "65", correct: true }
+                ]
+            },
+            {
+                question: "6. The product of 82 and 5 is: ",
+                answers: [
+                    { text: "400", correct: false },
+                    { text: "410", correct: true },
+                    { text: "420", correct: false },
+                    { text: "430", correct: false }
+                ]
+            },
+            {
+                question: "7. Find the missing term in multiple of 3: 3,6,9,,15.",
+                answers: [
+                    { text: "10", correct: false },
+                    { text: "11", correct: false },
+                    { text: "12", correct: true },
+                    { text: "13", correct: false}
+                ]
+            },
+            {
+                question: "8. Solve: 24/8+2.",
+                answers: [
+                    { text: "5", correct: true },
+                    { text: "6", correct: false },
+                    { text: "8", correct: false },
+                    { text: "12", correct: false }
+                ]
+            },
+
+            {
+                question: "9. Solve: 300-(150*2).",
+                answers: [
+                    { text: "150", correct: false },
+                    { text: "100", correct: false },
+                    { text: "50", correct: false },
+                    { text: "0", correct: true }
+                ]
+            },
+            {
+                question: "10. What is the next prime number after 5?",
+                answers: [
+                    { text: "6", correct: false },
+                    { text: "7", correct: true },
+                    { text: "9", correct: false },
+                    { text: "11", correct: false }
+                ]
+            },
+            {
+                question: "11. What is the 150% 0f 100?",
+                answers: [
+                    { text: "50", correct: false },
+                    { text: "100", correct: false },
+                    { text: "150", correct: true },
+                    { text: "200", correct: false}
+                ]
+            },
+            {
+                question: "12. If a dozen eggs cost $3.60, what is the cost of one egg?",
+                answers: [
+                    { text: "$0.30", correct: true },
+                    { text: "$0.40", correct: false },
+                    { text: "$0.20", correct: false },
+                    { text: "$0.25", correct: false }
+                ]
+            },
+            {
+                question: "13. What is the square root of 81?",
+                answers: [
+                    { text: "7", correct: false },
+                    { text: "8", correct: false },
+                    { text: "9", correct: true },
+                    { text: "10", correct: false }
+                ]
+            },
+            {
+                question: "14. How many sides does a Hexagon have?",
+                answers: [
+                    { text: "5", correct: false },
+                    { text: "6", correct: true },
+                    { text: "7", correct: false },
+                    { text: "8", correct: false }
+                ]
+            },
+
+            {
+                question: "15. If you divide 50 by half and add 20, what do you get?",
+                answers: [
+                    { text: "120", correct: true },
+                    { text: "100", correct: false },
+                    { text: "70", correct: false },
+                    { text: "45", correct: false }
+                ]
+            },
+            {
+                question: "16. What is the value of 2 to the power of 5?",
+                answers: [
+                    { text: "10", correct: false },
+                    { text: "16", correct: false },
+                    { text: "25", correct: false },
+                    { text: "32", correct: true }
+                ]
+            },
+            {
+                question: "17. If a circle has a diameter of 8cm, what is its radius?",
+                answers: [
+                    { text: "4cm", correct: true },
+                    { text: "8cm", correct: false },
+                    { text: "12cm", correct: false },
+                    { text: "16cm", correct: false }
+                ]
+            },
+            {
+            question: "18. What is the sum of the angles in a triangle?",
+                answers: [
+                    { text: "90 degrees", correct: false },
+                    { text: "180 degrees", correct: true },
+                    { text: "270 degrees", correct: false },
+                    { text: "360 degrees", correct: false }
+                ]
+            },
+            {
+                question: "19. What is the value of X in the equation 5X=25?",
+                answers: [
+                    { text: "4", correct: false },
+                    { text: "5", correct: true },
+                    { text: "20", correct: false },
+                    { text: "125", correct: false }
+                ]
+            },
+            {
+                question: "20. What is the solution for X in the equation X/4=3?",
+                answers: [
+                    { text: "0.75", correct: false },
+                    { text: "1", correct: false },
+                    { text: "7", correct: false },
+                    { text: "12", correct: true }
+                ]
+            },
+            {
+                question: "21. Which of these numbers is not a square ?",
+                answers: [
+                    { text: "169", correct: false },
+                    { text: "186" ,correct: true },
+                    { text: "144", correct: false },
+                    { text: "225", correct: false }
+                ]
+            },
+            {
+                question: "22. How many hours are there in a week?",
+                answers: [
+                    { text: "24", correct: false },
+                    { text: "60", correct: false },
+                    { text: "158", correct: false },
+                    { text: "168", correct: true }
+                ]
+            },
+
+            {
+                question: "23. All netural number and 0 are called the ___________ number.",
+                answers: [
+                    { text: "prime", correct: false },
+                    { text: "rational", correct: false },
+                    { text: "whole", correct: true },
+                    { text: "integer", correct: false }
+                ]
+            },
+            {
+                question: "24. What is the name for the longest side of a right-angled triangle?",
+                answers: [
+                    { text: "Hypothesis", correct: false },
+                    { text: "Hypotenuse", correct: true },
+                    { text: "Hypocrite", correct: false },
+                    { text: "Hypnosis", correct: false }
+                ]
+            },
+            {
+                question: "25. If a class of 40 students 20% are girls. How many boys are there in the class?",
+                answers: [
+                    { text: "26", correct: false },
+                    { text: "28", correct: false },
+                    { text: "30", correct: false },
+                    { text: "32", correct: true }
+                ]
+            },
+
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML = '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

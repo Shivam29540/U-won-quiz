@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "what number should come next in the series? 2, 6, 12, 20, 30, ...",
+                answers: [
+                    { text: "38", correct: false},
+                    { text: "40 ", correct: false },
+                    { text: "42", correct: true },
+                    { text: "44", correct: false }
+                ]
+            },
+            {
+                question: "which of the following is the odd one out?",
+                answers: [
+                    { text: "Dog", correct: false },
+                    { text: "Cat", correct: false },
+                    { text: "Rabbit", correct: false },
+                    { text: "Lion", correct:true }
+                ]
+            },
+
+            {
+                question: "if all bloops and all razzies are lazzies, then all bloops are definitely  ?",
+                answers: [
+                    { text: "true", correct: true },
+                    { text: "false", correct: false },
+                    { text: "cannot be determined ", correct: false },
+                    { text: "none of the above", correct: false }
+                ]
+            },
+            {
+                question: "find the missing number: 16, 33, 65, 131, ...?",
+                answers: [
+                    { text: "256", correct: false },
+                    { text: "265", correct: false },
+                    { text: "262", correct: false },
+                    { text: "263", correct: true }
+                ]
+            },
+            {
+            question: "which word does not belong with the others?",
+             answers: [
+                    { text:"Guitar", correct: false },
+                    { text: "Violin", correct: false },
+                    { text: "Flute", correct: true },
+                    { text: "Cello", correct: false }
+                ]
+            },
+            {
+            question: "what is the next letter in the sequence? A, C, F, J, O, ..",
+             answers: [
+                    { text: "S", correct: true },
+                    { text: "T", correct: false},
+                    { text: "U", correct: false},
+                    { text: "V", correct: false }
+                ]
+            },
+            {
+            question: "if 4+2=26, 8+1=79, and 6+3=69, what is 7+5?",
+             answers: [
+                    { text: "1312", correct: false },
+                    { text: "1212", correct: true },
+                    { text: "1220", correct: false },
+                    { text: "1320", correct: false }
+                ]
+            },
+            {
+            question: "if you rearrange the letters CIFAPIC you would have the name of a(n)?",
+             answers: [
+                    { text:"City", correct: false },
+                    { text: "Animal", correct: false },
+                    { text: "Ocean", correct: false },
+                    { text: "Country", correct: true }
+                ]
+            },
+            {
+            question: "which of the following is not a prime number?",
+             answers: [
+                    { text: "11", correct: false },
+                    { text: "13", correct: false },
+                    { text: "15", correct: true },
+                    { text: "17", correct: false }
+                ]
+            },
+            {
+            question: "what is the result when 2 is added to 3 and then multiplied by 4?",
+             answers: [
+                    { text: "20", correct: true },
+                    { text: "19", correct: false },
+                    { text: "18", correct: false },
+                    { text: "17", correct: false }
+                ]
+            },
+            {
+            question: "if YELLOW is coded as 25-5-12-12-15-23, how is PURPLE coded?",
+             answers: [
+                    { text: "16-21-18-16-12-5", correct: true },
+                    { text: "15-20-17-17-13-4", correct: false },
+                    { text: "12-20-21-26-12-3", correct: false },
+                    { text: "17-21-22-21-11-2", correct: false }
+                ]
+            },
+            {
+            question: "which is the following prime number?",
+             answers: [
+                    { text: "2", correct: true },
+                    { text: "0", correct: false },
+                    { text: "8", correct: false},
+                    { text: "9", correct: false }
+                ]
+            },
+            {
+            question: "In a certian code, TREE is written as GSSK. How is MANGO written is that code?",
+             answers: [
+                    { text: "NZMFP", correct: false },
+                    { text: "NBMHQ", correct: false },
+                    { text: "NZMHQ", correct: true },
+                    { text: "NBNHP", correct: false }
+                ]
+            },
+            {
+            question: "John is twice as old as his sister. Five years ago, he was three times as old as his sister. How oid is John now?",
+             answers: [
+                    { text: "10", correct: false },
+                    { text: "20", correct: true },
+                    { text: "22", correct: false },
+                    { text: "32", correct: false }
+                ]
+            },
+            {
+            question: "if 5 cats can catch 5 mice in 5 minute, how many cats are needed to catch 100mmice in 1000 minutes?",
+             answers: [
+                    { text: "5", correct: true },
+                    { text: "10", correct: false},
+                    { text: "20", correct: false},
+                    { text: "25", correct: false }
+                ]
+            },
+            {
+            question: "which word is a synonym of abundant?",
+             answers: [
+                    { text: "Scarce", correct: false },
+                    { text: "Plentiful", correct: true},
+                    { text: "Small", correct: false },
+                    { text: "Empty", correct: false }
+                ]
+            },
+            {
+            question: "how many sides does a heptagon have?",
+             answers: [
+                    { text: "5", correct: false },
+                    { text: "6", correct: false },
+                    { text: "7", correct: true },
+                    { text: "8", correct: false }
+                ]
+            },
+            {
+            question: "what is the capital of INDIA?",
+             answers: [
+                    { text: "sydney", correct: false },
+                    { text:"New Delhi", correct: true },
+                    { text: "perth", correct: false },
+                    { text: "peris", correct: false }
+                ]
+            },
+            {
+            question: "which of the following is the largest prime number less than 20?",
+             answers: [
+                    { text: "13", correct: false },
+                    { text: "11", correct: false },
+                    { text: "19", correct: true },
+                    { text: "17", correct: false }
+                ]
+            },
+            {
+            question: "if a=b, and b=c, then which of the following is true?",
+             answers: [
+                    { text: "a>c", correct: false },
+                    { text: "a=c ", correct: false },
+                    { text: "a<c", correct: true },
+                    { text: "none of the above ", correct: false }
+                ]
+            },
+            {
+            question: "find the odd one out: 2, 4, 6, 9, 10?",
+             answers: [
+                    { text: "6", correct: false },
+                    { text: "9", correct: true },
+                    { text: " 2", correct: false },
+                    { text: "4", correct: false }
+                ]
+            },
+            {
+            question: "which number is missing? 2, 5, 10, 17",
+             answers: [
+                    { text: "20", correct: false },
+                    { text: "24", correct: true },
+                    { text: "28", correct: false},
+                    { text: "26", correct: false }
+                ]
+            },
+            {
+            question: "which of the following words is not like the others?",
+             answers: [
+                    { text: "lion", correct: true },
+                    { text: "apple", correct: false },
+                    { text: "banana", correct: false },
+                    { text: "grape", correct: false }
+                ]
+            },
+            {
+            question: "which of the following numbers is divided by 3?",
+             answers: [
+                    { text: "22", correct: false },
+                    { text: "69", correct: true},
+                    { text: "68", correct: false},
+                    { text: "25", correct: false }
+                ]
+            },
+            {
+            question: "find the value of x if 3x+5=20?",
+             answers: [
+                    { text: "3", correct: false },
+                    { text: "4", correct: false},
+                    { text: "5", correct: true},
+                    { text: "6", correct: false }
+                ]
+            },    
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML = '<a href="feedback.html">Give your Feedback</a>';;
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input, textarea, button {
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Contact Us</h1>
+        <p>If you have any questions or need help with the quiz, please reach out to us through one of the following methods:</p>
+        <ul>
+            <li>Email: <a href="mailto:info@contactorquiz.com">info@contactorquiz.com</a></li>
+            <li>Phone: +1 (555) 123-4567</li>
+            <li>Address: 123 Contactor Ave, ElectriCity, EC 12345</li>
+        </ul>
+        <h2>Contact Form</h2>
+        <form id="contactForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div id="formMessage"></div>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Here you would normally send the data to the server.
+            // For demonstration purposes, we'll just show a thank you message.
+
+            const formMessage = document.getElementById('formMessage');
+            formMessage.innerHTML = 'Thank you, ${name}! Your message has been received. Well get back to you at ${email} soon.';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE  html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "in the film Ratatouille, Remy the rat, was an excellent ?",
+                answers: [
+                    { text: "footballer", correct: false},
+                    { text: "pilot", correct: false },
+                    { text: "chef", correct: true },
+                    { text: "sailor", correct: false }
+                ]
+            },
+            {
+                question: "what is the dogs name in the series Tom and Jerry?",
+                answers: [
+                    { text: "moti", correct: false },
+                    { text: "Prada", correct: false },
+                    { text: "spike", correct: true },
+                    { text: "Chanel", correct:false }
+                ]
+            },
+
+            {
+                question: "who was the first disney princess ?",
+                answers: [
+                    { text: "Cinderella", correct: true },
+                    { text: "pinderekla", correct: false },
+                    { text: "kinderella", correct: false },
+                    { text: "ginderekla", correct: false }
+                ]
+            },
+            {
+                question: "what name does mulan pick for herself while pretending to be a man?",
+                answers: [
+                    { text: "king", correct: false },
+                    { text: "ping", correct: true },
+                    { text: "ring", correct: false },
+                    { text: "ging", correct: false }
+                ]
+            },
+            {
+            question: "what is the orignal name of Winnie the pooh?",
+             answers: [
+                    { text:"Givenchy", correct: false },
+                    { text: "Edward Bear", correct: true },
+                    { text: "Versace", correct: false },
+                    { text: "Dolce & Gabbana", correct: false }
+                ]
+            },
+            {
+            question: "what is the most important food for the Winnie the pooh?",
+             answers: [
+                    { text: "butter", correct: false },
+                    { text: "honey", correct: true },
+                    { text: "chocolate", correct: false},
+                    { text: "jam", correct: false }
+                ]
+            },
+            {
+            question: "what does popeye the sailor man eat to be strong to the finich?",
+             answers: [
+                    { text: "Spinach", correct: true },
+                    { text: " Npinach", correct: false },
+                    { text: "Dpinach", correct: false },
+                    { text: "Linpanch", correct: false }
+                ]
+            },
+            {
+            question: "what is the relationship between Rick and Morty?",
+             answers: [
+                    { text: "Father and Son", correct: false },
+                    { text: "Grandfather and Grandson", correct: true },
+                    { text: "Siblins", correct: false },
+                    { text: "none of the above", correct: false }
+                ]
+            },
+            {
+            question: "which breed of dog is Scooby-Doo?",
+             answers: [
+                    { text: "Great Dane", correct: true },
+                    { text: "Golden Retrieve", correct: false },
+                    { text: "Poodle", correct: false },
+                    { text: "German Shepherd", correct: false }
+                ]
+            },
+            {
+            question: "which cartoon series feature flying cars in all episode?",
+             answers: [
+                    { text: "Animaniacs", correct: false },
+                    { text: "Rick and Morty", correct: false },
+                    { text: "The Jetsons", correct: true },
+                    { text: "None of the above", correct: false }
+                ]
+            },
+            {
+            question: "Raichu is the evoled version of which pokemon?",
+             answers: [
+                    { text: "nikachu", correct: false },
+                    { text: "cikachu", correct: false },
+                    { text: "pikachu", correct: true },
+                    { text: "gikachu", correct: false }
+                ]
+            },
+            {
+            question: "which cartoon is set in the animated town of ocean shores?",
+             answers: [
+                    { text: "Rocket Power", correct: true },
+                    { text: "Jacket Power", correct: false },
+                    { text: "Tom Ford", correct: false},
+                    { text: "Riccardo Tisci", correct: false }
+                ]
+            },
+            {
+            question: "in beauty and the beast, what is belle's father name?",
+             answers: [
+                    { text: "Sultan", correct: false },
+                    { text: "Mirza", correct: false },
+                    { text: "Maurice", correct: true },
+                    { text: "Alatmash", correct: false }
+                ]
+            },
+            {
+            question: "who is Mickey Mouse's girlfriend?",
+             answers: [
+                    { text: "Pinky Mouse", correct: false },
+                    { text: "Minnie Mouse", correct: true },
+                    { text: "Jinky Mouse", correct: false },
+                    { text: "Jinny Mouse", correct: false }
+                ]
+            },
+            {
+            question: "what is tommy's last name in rugrats?",
+             answers: [
+                    { text: "Oranges", correct: false },
+                    { text: "Pickles", correct: true },
+                    { text: "Cakes", correct: false},
+                    { text: "Pears", correct: false }
+                ]
+            },
+            {
+            question: "what is Dora the explore's surname?",
+             answers: [
+                    { text: "Rodriguez", correct: false },
+                    { text: "Gonzales", correct: false },
+                    { text: "Marquez", correct: true },
+                    { text: "Mendes", correct: false }
+                ]
+            },
+            {
+            question: "which classic cartoon was portrayed by robin williams in a 1980 live action movie?",
+             answers: [
+                    { text: "lopepy", correct: false },
+                    { text: "Wopepy", correct: false },
+                    { text: "popeye", correct: true },
+                    { text: "Poleye", correct: false }
+                ]
+            },
+            {
+            question: "which character life quest is to hunt down the road runner?",
+             answers: [
+                    { text: "Willy W. coyote", correct: false },
+                    { text: "Wily E. coyote", correct: true },
+                   { text: "Willy P. coyote", correct: false },
+                    { text: "Willy N. coyote", correct: false }
+                ]
+            },
+            {
+            question: "eliza thornberry is a character in which cartoon?",
+             answers: [
+                    { text: "The Kild thornberrys", correct: false },
+                    { text: "The Lind thronverrys", correct: false },
+                    { text: "The Wild thornberrys", correct: true },
+                    { text: "None of the above", correct: false }
+                ]
+            },
+            {
+            question: "what is the name of wendy's dog in peter pan?",
+             answers: [
+                    { text: "kaka", correct: false },
+                    { text: "mama ", correct: false },
+                    { text: "nana", correct: true },
+                    { text: "none of the above ", correct: false }
+                ]
+            },
+            {
+            question: "which disney princess sings once upon a dream?",
+             answers: [
+                    { text: "purora", correct: false },
+                    { text: "aurora", correct: true },
+                    { text: "Burora", correct: false },
+                    { text: "Furora", correct: false }
+                ]
+            },
+            {
+            question: "in bambi what is the name of bambi rabbit friend?",
+             answers: [
+                    { text: "flower", correct: false },
+                    { text: "thumper", correct: true },
+                    { text: "bobby", correct: false},
+                    { text: "boppy", correct: false }
+                ]
+            },
+            {
+            question: "in the cartoon the little mermaid how old is arriel at the time of marrying eric?",
+             answers: [
+                    { text: "16 years old", correct: true },
+                    { text: "15 years old", correct: false },
+                    { text: "14 years old", correct: false },
+                    { text: "19 years old", correct: false }
+                ]
+            },
+            {
+            question: "in the 1996 film the hunchback of notre dame what is the real name of teh protagonist?",
+             answers: [
+                    { text: "nictor hugo", correct: false },
+                    { text: "victor hugo", correct: true},
+                    { text: "kictor hugo", correct: false},
+                    { text: "none of the above", correct: false }
+                ]
+            },
+            {
+            question: "what are the names of the main human character in scooby doo?",
+             answers: [
+                    { text: "velma", correct: false },
+                    { text: "fred", correct: false},
+                    { text: "shaggy", correct: false},
+                    { text: "all of the above", correct: true }
+                ]
+            },    
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

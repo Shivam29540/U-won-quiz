@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+        .big{
+            height: 800px;
+            width: 100%;
+            background:url(https://e1.pxfuel.com/desktop-wallpaper/817/133/desktop-wallpaper-party-game-its-quiz-time-announced-1920x1080-for-your-mobile-tablet-trivia.jpg);
+            background-repeat:no-repeat ;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        }
+        .button1{
+            margin-top: 15px;
+            background-color: #6298f5;
+             font: monospace ;
+             margin-left: 40%;
+             margin-right: 25px;
+             border: white solid 2px;
+             border-radius: 10px; padding: 10px;width: 150px;
+             color:white; font-weight: bold; font-size: 15px;
+            
+        }
+ */
+
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1.What organ is responsible for pumping blood throughout the human body?",
+                answers: [
+                    { text: "Heart", correct: true },
+                    { text: "Lungs", correct: false },
+                    { text: "Liver", correct: false },
+                    { text: "Brain", correct: false }
+                ]
+            },
+            {
+                question: "2.What do you call an organism that make its own food?",
+                answers: [
+                    { text: "Decomposer", correct: false },
+                    { text: "Heterotroph", correct: false },
+                    { text: "Decomposer", correct: false },
+                    { text: "Autotroph", correct: true }
+                ]
+            },
+
+            {
+                question: "3.What is the process by which  plants make their food using sunlight?",
+                answers: [
+                    { text: "Digestion", correct: false },
+                    { text: "Respiration", correct: false },
+                    { text: "Photosynthesis", correct: true },
+                    { text: "Fermentation", correct: false }
+                ]
+            },
+            {
+                question: "4.What is the smallest unit of life?",
+                answers: [
+                    { text: "Cell", correct: true },
+                    { text: "Tissue", correct: false },
+                    { text: "Organ", correct: false },
+                    { text: "Atom", correct: false }
+                ]
+            },
+            {
+                question: "5.Which organ in the human body is primarily responsible for detoxification?",
+                answers: [
+                    { text: "Lungs", correct: false },
+                    { text: "Heart", correct: false },
+                    { text: "Liver", correct: true },
+                    { text: "Kidney", correct: false }
+                ]
+            },
+           
+            {
+                question: "6.Which part of the plant is responsible for photosynthesis?",
+                answers: [
+                    { text: "Flower", correct: false },
+                 { text: "Root", correct: false },
+                    { text: "Leaf", correct: true },
+                    { text: "Stem ", correct: false }
+                ]
+            },{
+             question: "7.What is the main gas found in the air we exhale?",
+                answers: [
+                    { text: "Nitrogen", correct: false },
+                    { text: "Oxygen", correct: false },
+                    { text: "Carbon Dioxide", correct: true },
+                    { text: "Hydrogen ", correct: false }
+            ]
+            },
+            {
+             question:"8.What is the hardest natural substance on Earth?",
+                answers: [
+                    { text: "Gold", correct: false },
+                    { text: "iron", correct: false },
+                    { text: "Diamond", correct: true },
+                    { text: "Platinum ", correct: false }
+            ]
+
+            },
+           {
+            question:"9.which element is a liquid at a room temperature?",
+                answers: [
+                    { text: "Gold", correct: false },
+                    { text: "Mercury", correct: true },
+                    { text: "iron", correct: false },
+                    { text: "Carbon", correct: false }
+
+           ]
+           },
+           {
+            question:"10.what is the study of weather called?",
+                answers: [
+                    { text: "Biology", correct: false },
+                    { text: "Meteorology", correct: true },
+                    { text: "Geology", correct: false },
+                    { text: "Astrology", correct: false }
+           ]
+           },
+           {
+            question:"11.what is the main component of the sun?",
+            answers: [
+                    { text: "Helium", correct: false },
+                    { text: "Oxygen", correct: false },
+                    { text: "Hydrogen", correct: true},
+                    { text: "Neon", correct: false }
+       ]   },
+           {
+            question:"12.what is the chemical symbol for pottasium ?",
+                answers: [
+                    { text: "P", correct: false },
+                    { text: "Pt", correct: false },
+                    { text: "Po", correct: false },
+                    { text: "K", correct: true }
+           ]
+           },
+           {
+            question:"13.What is the most abundant element in the Earth's crust?",
+                answers: [
+                    { text: "Helium", correct: false },
+                    { text: "Oxygen", correct: true },
+                    { text: "Hydrogen", correct: false},
+                    { text: "Neon", correct: false }
+       ]   },
+          
+           {
+            question:"14.which vitamin is esential for blood clotting?",
+                answers: [
+                    { text: "Vitamin K", correct: true },
+                    { text: "Vitamin A", correct: false },
+                    { text: "Vitamin C", correct: false },
+                    { text: "Vitamin D", correct: false }
+           ]
+           },
+          {
+           question:"15.which planet has the Great Red Spot?",
+                answers: [
+                    { text: "Jupiter", correct: true },
+                    { text: "Mars", correct: false },
+                    { text: "Saturn", correct: false },
+                    { text: "Neptune", correct: false }
+          ]
+          },
+          {
+           question:"16.What is the most abundant gas in the Sun?",
+                answers: [
+                    { text: "Helium", correct: false },
+                    { text: "Oxygen", correct: false },
+                    { text: "Hydrogen", correct: true},
+                    { text: "Neon", correct: false }
+       ]   },
+       {
+        question:"17.Which particle has no electrical charge ?",
+                answers: [
+                    { text: "Proton", correct: false },
+                    { text: "Electron", correct: false },
+                    { text: "Neutron", correct: true},
+                    { text: "Positron", correct: false }
+     ]  },
+        
+          {
+           question:"18.What  is the most abundant element in the universe?",
+                answers: [
+                    { text: "Zinc", correct: false },
+                    { text: "Sodium", correct: false },
+                    { text: "Oxygen", correct: false},
+                    { text: "Hydrogen", correct: true}
+     ]  },
+          {
+           question:"19.Which scientist proposed the three laws of motion?",
+                answers: [
+                    { text: "Galileo Galilei", correct: false },
+                    { text: "Albert Einstein", correct: false },
+                    { text: "Niels Bohr", correct: false},
+                    { text: "Issac Newton", correct: true}
+        ]  },
+       {
+        question:"20.What is the heaviest naturally occuring element?",
+                answers: [
+                    { text: "Gold", correct: false },
+                    { text: "Plutonium", correct: false },
+                    { text: "Lead", correct: false},
+                    { text: "Uranium", correct: true}
+     ]  },
+     {
+      question:"21.Whaich scientist is known for the theory of relativity?",
+                answers: [
+                    { text: "Stephen Hawking", correct: false },
+                    { text: "Niels Bohr", correct: false },
+                    { text: "Issac Newton", correct: false},
+                    { text: "Albert Einstein", correct: true}
+     ]  },
+     {
+      question:"22.Which element has the atomic number 6?",
+                answers: [
+                    { text: "Carbon", correct: true },
+                    { text: "Nitrogen", correct: false },
+                    { text: "Oxygen", correct: false},
+                    { text: "Helium", correct: false}
+     ]  },
+     {
+
+      question:"23.What is the ph of pure water ?",
+                answers: [
+                    { text: "8", correct: false },
+                    { text: "2", correct: false },
+                    { text: "7", correct: true},
+                    { text: "10", correct: false}
+     ]  },
+     {
+      question:"24.What is the most abundant gas in Earth's atmosphere?",
+                answers: [
+                    { text: "Hydrogen", correct: false },
+                    { text: "Oxygen", correct: false },
+                    { text: "Nitrogen", correct: true},
+                    { text: "Carbon Dioxide ", correct: false}
+     ]  },
+     {
+        question:"25.Which type of reaction absorbs energy from the surroundings ?",
+                answers: [
+                    { text: "Endothermic", correct: true },
+                    { text: "Exothermic", correct: false },
+                    { text: "Combustion", correct: false},
+                    { text: "Neutralization", correct: false}
+     ]  }
+     
+     
+     ];
+     const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML =  '<a href="feedback.html">Give your Feedback</a>';;
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>

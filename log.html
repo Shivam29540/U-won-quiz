@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>database-</title>
+    <style>
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(../download.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.box
+{
+    padding: 20px 30px;
+    width: 300px;
+    height: 400px;
+    backdrop-filter: blur(50px);
+    border-radius: 5px;
+    background: rgba(49, 49, 49, .2);
+    border: 1px solid rgba(255, 255, 255, .5);
+}
+.box .form
+{
+    padding: 10px 20px;
+}
+.box  h2
+{
+    text-align: center;
+    color: #fff;
+}
+.box .form form
+{
+    margin-top: 50px;
+    align-items: center;
+}
+.box .form form .inputbox input
+{
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background: none;
+    border-bottom: 1px solid #12151e;
+    margin-bottom: 30px;
+    color: #fff;
+}
+.box .form form .inputbox span
+{
+    position: absolute;
+    transform: translateY(-80px);
+    font-size: 14px;
+    color: #fff;
+}
+.box .form form .sub
+{
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    outline: none;
+    background: #0cc0df;
+    cursor: pointer;
+    font-size: 16px;
+}
+        /* *{
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url(../imagesp.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+        .box{
+            padding: 20px 30px;
+            width: 350px;
+            height: 450px;
+            backdrop-filter: blur(50px);
+            background: rgba(49, 49, 49, .2);
+            border: 1px solid rgba(255, 255, 255, .5);
+        }
+        .box .form{
+            padding: 10px 20px;
+        }
+        .box  h2{
+            text-align: center;
+            color: aliceblue;
+        }
+        .box .form form{
+                margin-top: 50px;
+                align-items: center;
+                margin-left: 30px;
+        }
+        .box .form form .inputbox input {
+            padding: 10px 20px;
+            border: none;
+            outline: none;
+            background: none;
+            border-bottom: 2px solid white;
+            margin-bottom: 30px;
+        }
+        .box .form form .inputbox span{
+            position:relative;
+            transform: translate(-50px) ;
+            font-size: 15px;
+            color: #fff;
+        }  */
+        
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Registration</h2>
+        <div class="form">
+            <form>
+                <div class="inputbox">
+                    <label for="username"></label>
+                    <input type="text" value="" id="username" required>
+                    <span>username</span>
+                </div>
+                <div class="inputbox">
+                    <label for="E-mail"></label>
+                    <input type="email" value="" id="email" required>
+                    <span>E-mail</span>
+                </div>
+                <div class="inputbox">
+                    <label for="phone"></label>
+                    <input type="text" value="" id="phone" required>
+                    <span>Phone Number</span>
+                </div>
+                <input type="submit"  class="sub" id="submit">
+            </form>
+        </div>
+    </div>
+    <script type="module">
+           // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+  {/* import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js"; */}
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNq6DZc1iBcYjXRQHr3O9mXec6-WEg-f8",
+    authDomain: "quizwon-22aa2.firebaseapp.com",
+    projectId: "quizwon-22aa2",
+    storageBucket: "quizwon-22aa2.appspot.com",
+    messagingSenderId: "393028856977",
+    appId: "1:393028856977:web:13173b976030143ee56330",
+    measurementId: "G-32T5RCG0M5"
+  };
+
+
+
+  const app = initializeApp(firebaseConfig);
+  {/* const analytics = getAnalytics(app); */}
+  const db= getDatabase(app);
+
+  document.getElementById("submit").addEventListener('click', function(e){
+    e.preventDefault();
+    set(ref(db, 'user/' + document.getElementById("username").value),
+    {
+        username : document.getElementById("username").value,
+        email: document.getElementById("email").value,
+        PhoneNumber: document.getElementById("phone").value
+    }).then(() => {
+                // Registration successful
+                alert("Registration successful!");
+                // Redirect to another page
+                window.location.href = "grid.html";
+            }).catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+        });
+    
+    
+
+    </script>
+    <!-- <script src="sc.js">
+        <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNq6DZc1iBcYjXRQHr3O9mXec6-WEg-f8",
+    authDomain: "quizwon-22aa2.firebaseapp.com",
+    projectId: "quizwon-22aa2",
+    storageBucket: "quizwon-22aa2.appspot.com",
+    messagingSenderId: "393028856977",
+    appId: "1:393028856977:web:13173b976030143ee56330",
+    measurementId: "G-32T5RCG0M5"
+  };
+
+
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+    </script> -->
+</body>
+</html>

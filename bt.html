@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="st.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .wrong {
+            background-color: #f44336;
+        }
+
+        .hide {
+            display: none;
+        } */
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer">Time left: <span id="countdown"></span></div>
+        <div id="score">Score: <span id="score-count">0</span></div>
+        <div class="bt">
+            <button class="button1 hide" id="next-btn">Next</button>
+            <button class="button1" id="quit-btn">Quit and Show Score</button>
+       </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "1. Which of the following class in bootstrap is used to provide a responsive fixed width container?",
+                answers: [
+                    { text: ".container-fluid", correct: false},
+                    { text: ".container", correct: false },
+                    { text: ".container-fixed", correct: true },
+                    { text: "all of the above", correct: false }
+                ]
+            },
+            {
+                question: "2. Which of the following class in bootstrap is used to create a dropdown menu?",
+                answers: [
+                    { text: ".select", correct: false },
+                    { text: ".select-list", correct: false },
+                    { text: ".dropdown", correct: true },
+                    { text: "none", correct:false }
+                ]
+            },
+
+            {
+                question: "3. Which of the following bootstrap styles can be used to create a default progress bar?",
+                answers: [
+                    { text: ".progress,.progress-bar", correct: true },
+                    { text: ".nav-progress", correct: false },
+                    { text: ".link-progress-bar", correct: false },
+                    { text: "all of the mentioned", correct: false }
+                ]
+            },
+            {
+                question: "4. The bootstrap grid system is based on how many columns?",
+                answers: [
+                    { text: "4", correct: false },
+                    { text: "12", correct: true },
+                    { text: "6", correct: false },
+                    { text: "8", correct: false }
+                ]
+            },
+            {
+            question: "5. Which plugin is used to cycle through elements, like a slideshow?",
+             answers: [
+                    { text: "Carousel plugin", correct: false },
+                    { text: "modal plugin", correct: true },
+                    { text: "tooltip plugin", correct: false },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "6. The content must be placed within-----in bootstrap?",
+             answers: [
+                    { text: "rows", correct: false },
+                    { text: "columns", correct: true },
+                    { text: "containers", correct: false},
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "7. Which of the following class applies hover color to a specific row or a cell?",
+             answers: [
+                    { text: "active", correct: true },
+                    { text: "warning", correct: false },
+                    { text: "success", correct: false },
+                    { text: "danger", correct: false }
+                ]
+            },
+            {
+            question: "8. Which of the following bootstrap version should be used to support IE9?",
+             answers: [
+                    { text: "botstrap 2", correct: false },
+                    { text: "bootstrap 3", correct: true },
+                    { text: "bootstrap 1", correct: false },
+                    { text: "bootstrap 4", correct: false }
+                ]
+            },
+            {
+            question: "9. Which of the following is the default size of H3 bootstrap heading?",
+             answers: [
+                    { text: "24px", correct: true },
+                    { text: "12px", correct: false },
+                    { text: "36", correct: false },
+                    { text: "48", correct: false }
+                ]
+            },
+            {
+            question: "10. Which of the following is default layout of a bootstrap form?",
+             answers: [
+                    { text: ".inline", correct: false },
+                    { text: ".horizontal", correct: false },
+                    { text: ".vertical", correct: true },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "11. Which of the follwing bootstrap style of button creates a default/standard button?",
+             answers: [
+                    { text: ".btn-primary",correct:false},
+                    { text: ".btn-success", correct: false },
+                    { text: ".btn", correct: true },
+                    { text: ".btn-info", correct: false }
+                ]
+            },
+            {
+            question: "12. Which of the following bootstrap style of button makes the button size extra small?",
+             answers: [
+                    { text: ".btn-xs", correct: true },
+                    { text: ".btn-sm", correct: false },
+                    { text: ".btn-block", correct: false},
+                    { text: ".btn-lg", correct: false }
+                ]
+            },
+            {
+            question: "13. Which of the following bootstrap style makes a set of buttons appear vertically stacked rather than horizontally?",
+             answers: [
+                    { text: ".btn-group", correct: false },
+                    { text: "btn-toolbar", correct: false },
+                    { text: ".btn-group-lg", correct: true },
+                    { text: ".btn-gruop-vertical", correct: false }
+                ]
+            },
+            {
+            question: "14.  Which of the following bootstrap style is to be used if you want to create an inverted .navbar with a black background and with white text?",
+             answers: [
+                    { text: ".navbar-reverse", correct: false },
+                    { text: ".navbar-inverse", correct: true },
+                    { text: ".navbar-inverted", correct: false },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "15. which of the following bootstrap style can be used to get a muted look on a pager buttons?",
+             answers: [
+                    { text: ".pager-disabled", correct: false },
+                    { text: ".disabled", correct: true },
+                    { text: ".link-disabled", correct: false},
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "16.Who developed the bootstrap?",
+             answers: [
+                    { text: "James Gosling", correct: false },
+                    { text: "Mark Jukervich", correct: false },
+                    { text: "Mark Otto and Jacob Thornton", correct: true },
+                    { text: "Dennis Richie", correct: false }
+                ]
+            },
+            {
+            question: "17. Is Bootstrap mobile-first?",
+             answers: [
+                    { text: "false", correct: false },
+                    { text: "can't say", correct: false },
+                    { text: "may be", correct: true },
+                    { text: "true", correct: false }
+                ]
+            },
+            {
+            question: "18. The class used for creating the large size wells is?",
+             answers: [
+                    { text: ".well-big", correct: false },
+                    { text: ".well-lg", correct: true },
+                    { text: ".well-large", correct: false },
+                    { text: ".well-sm", correct: false }
+                ]
+            },
+            {
+            question: "19.The class used for creating the small size wells is?",
+             answers: [
+                    { text: ".well-small", correct: false },
+                    { text: ".well-short", correct: false },
+                    { text: ".well-sm", correct: true },
+                    { text: ".well-lg", correct: false }
+                ]
+            },
+            {
+            question: "20. Which of the following class in bootstrap is used for creating the large size modals?",
+             answers: [
+                    { text: ".modal-sm", correct: false },
+                    { text: ".modal-large", correct: false },
+                    { text: ".modal-lg", correct: true },
+                    { text: "modal-big", correct: false }
+                ]
+            },
+            {
+            question: "21. Which of the following class in bootstrap is used for creating the small size modals?",
+             answers: [
+                    { text: ".modal-lg", correct: false },
+                    { text: ".modal-sm", correct: true },
+                    { text: ".modal-large", correct: false },
+                    { text: ".modal-big", correct: false }
+                ]
+            },
+            {
+            question: "22. Which of the following class in bootstrap is used to indicate the uppercased text?",
+             answers: [
+                    { text: ".text-capitalize", correct: false },
+                    { text: ".text-uppercase", correct: true },
+                    { text: ".uppercase", correct: false},
+                    { text: ".text-upper", correct: false }
+                ]
+            },
+            {
+            question: "23. Which of the plugin is used to create a tooltip?",
+             answers: [
+                    { text: "tooltip", correct: true },
+                    { text: "popover", correct: false },
+                    { text: "modal", correct: false },
+                    { text: "none", correct: false }
+                ]
+            },
+            {
+            question: "24. Which of the following class is used to add a heading to the panel?",
+             answers: [
+                    { text: ".panel-heading", correct: true},
+                    { text: ".panel-head", correct: false},
+                    { text: ".panel-header", correct: false},
+                    { text: ".panel-content", correct: false }
+                ]
+            },
+            {
+            question: "25. Which of the following class is used to create a thumbnail image?",
+             answers: [
+                    { text: ".img-circle", correct: false },
+                    { text: ".img-nail", correct: false},
+                    { text: ".img-thumbnail", correct: true},
+                    { text: ".img-thumb", correct: false }
+                ]
+            },    
+        ];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const quitButton = document.getElementById('quit-btn');
+        const scoreDisplay = document.getElementById('score-count');
+        const timerDisplay = document.getElementById('countdown');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer; // Variable to hold the timer interval
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.classList.add('hide');
+            quitButton.classList.remove('hide'); // Ensure quit button is visible at start
+            showQuestion(questions[currentQuestionIndex]);
+            startTimer(10); // Start timer for the first question
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            if (correct) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            setStatusClass(selectedButton, correct);
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true; // Disable all buttons after an answer is selected
+                setStatusClass(button, button.dataset.correct === 'true');
+            });
+            clearTimeout(timer); // Clear the timer when an answer is selected
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element);
+            if (correct) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+            }
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        function startTimer(seconds) {
+            let timeLeft = seconds;
+            timerDisplay.innerText = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            const correctButton = answerButtons.querySelector('.btn[data-correct="true"]');
+            if (correctButton) {
+                setStatusClass(correctButton, true);
+            }
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion(questions[currentQuestionIndex]);
+                    startTimer(10); // Start timer for the next question
+                } else {
+                    endQuiz();
+                }
+            }, 2000); // 2 second delay before moving to the next question or end of quiz
+        }
+
+        function endQuiz() {
+            questionContainer.innerText = 'Quiz Ended!';
+            answerButtons.innerHTML = '';
+            nextButton.innerHTML = '<a href="feedback.html">Give your Feedback</a>';
+            nextButton.classList.remove('hide');
+            quitButton.classList.add('hide'); // Hide the quit button when quiz ends
+            showScore();
+        }
+
+        function showScore() {
+            const scorePercentage = (score / questions.length) * 100;
+            const scoreText = `Your score: ${score} out of ${questions.length} (${scorePercentage.toFixed(2)}%)`;
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.classList.add('score-display');
+            scoreDisplay.textContent = scoreText;
+            quizContainer.appendChild(scoreDisplay); // Corrected variable to append the score display
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(questions[currentQuestionIndex]);
+                startTimer(10); // Start timer for the next question
+            } else {
+                startQuiz();
+            }
+        });
+
+        quitButton.addEventListener('click', () => {
+            endQuiz();
+        });
+
+        startQuiz();
+    </script>
+</body>
+</html>
